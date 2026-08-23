@@ -1,0 +1,33 @@
+name: Purge 10 oldest branches
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/purge-10-oldest.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete selected old branches
+        env:
+          TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          remote="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push "$remote" --delete \
+            ui-modern-preview \
+            ui-backup-before-modern-rework-2026-08-18 \
+            validate-haven-full \
+            validate-haven-full-final \
+            audit-runecraft-full \
+            chatgpt/finish-runecraft \
+            chatgpt/swordcraft-audit \
+            agent/forestcraft-audit \
+            agent/dragoncraft-audit \
+            agent/abysscraft-audit
