@@ -145,6 +145,23 @@ jobs:
       - name: Run Battle Sim smoke test
         run: node scripts/check-battle-sim.mjs
 
+      - name: Run Battle Sim share-ready release gate
+        run: node scripts/check-battle-share-ready.mjs
+
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Sync Beyond Codex test snapshot
+        run: node scripts/sync-beyond-codex.mjs
+
       - name: Run Battle Sim benchmark smoke test
         run: node scripts/check-battle-benchmark.mjs
 
@@ -153,6 +170,3 @@ jobs:
 
       - name: Run paired benchmark comparison smoke test
         run: node scripts/check-battle-benchmark-compare.mjs
-
-      - name: Run Battle Sim share-ready release gate
-        run: node scripts/check-battle-share-ready.mjs
