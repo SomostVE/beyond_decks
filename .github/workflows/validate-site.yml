@@ -28,9 +28,12 @@ jobs:
             node --check "$file"
           done
 
+      - name: Sync Beyond Codex test snapshot
+        run: node scripts/sync-beyond-codex.mjs
+
       - name: Check JSON
         run: |
-          node -e "const fs=require('fs');for(const file of ['data/official/cards.json','data/official/metadata.json','data/official/changelog.json','data/custom/reference-decks.json','data/custom/reference-decks.source.json','data/custom/packages.json','data/custom/tags.json','data/custom/exclusions.json']){JSON.parse(fs.readFileSync(file,'utf8'));console.log('OK '+file)}"
+          node -e "const fs=require('fs');for(const file of ['data/official/cards.json','data/official/metadata.json','data/official/changelog.json','data/official/manifest.json','data/custom/reference-decks.json','data/custom/reference-decks.source.json','data/custom/packages.json','data/custom/tags.json','data/custom/exclusions.json']){JSON.parse(fs.readFileSync(file,'utf8'));console.log('OK '+file)}"
 
       - name: Run Beyond Codex migration regression
         run: node scripts/check-beyond-codex-migration.mjs
