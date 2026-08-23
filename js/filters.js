@@ -12,6 +12,11 @@ export const CLASSES = [
   "Neutral"
 ];
 
+let parsedSearchSource = null;
+let parsedSearchResult = null;
+let relatedIndexCards = null;
+let relatedNameEntries = [];
+
 export function pruneUnavailableFilters() {
   const available = state.cards.filter(card =>
     card.class === state.selectedClass ||
@@ -40,9 +45,11 @@ export function pruneUnavailableFilters() {
 }
 
 export function filteredCards({ sort = true } = {}) {
-  const query = parseSearch(state.search);
+  const query = getParsedSearch(state.search);
   const relatedTargets = resolveRelatedTargets(query.related);
   const discoverSource = state.discoverCardId ? state.cardMap.get(Number(state.discoverCardId)) : null;
+  const selectedTraits = [...state.filters.traits];
+  const selectedKeywords = [...state.filters.keywords];
 
   const cards = state.cards.filter(card => {
     const classMatch =
@@ -66,14 +73,14 @@ export function filteredCards({ sort = true } = {}) {
     if (state.filters.types.size && !state.filters.types.has(card.type)) return false;
     if (state.filters.rarities.size && !state.filters.rarities.has(card.rarity)) return false;
 
-    if (state.filters.traits.size) {
-      const traits = new Set(card.traits ?? []);
-      if (![...state.filters.traits].every(value => traits.has(value))) return false;
+    if (selectedTraits.length) {
+      const traits = cachedSet(card, "__filterTraits", card.traits ?? []);
+      if (!selectedTraits.every(value => traits.has(value))) return false;
     }
 
-    if (state.filters.keywords.size) {
-      const keywords = new Set(card.keywords ?? []);
-      if (![...state.filters.keywords].every(value => keywords.has(value))) return false;
+    if (selectedKeywords.length) {
+      const keywords = cachedSet(card, "__filterKeywords", card.keywords ?? []);
+      if (!selectedKeywords.every(value => keywords.has(value))) return false;
     }
 
     if (discoverSource && card.id !== discoverSource.id && discoveryScore(discoverSource, card) <= 0) return false;
@@ -127,24 +134,32 @@ export function discoveryScore(source, candidate) {
   if (!source || !candidate || source.id === candidate.id) return source?.id === candidate?.id ? 1000 : 0;
   let score = 0;
 
-  if ((source.relations ?? []).some(relation => Number(relation.id) === candidate.id)) score += 100;
-  if ((candidate.relations ?? []).some(relation => Number(relation.id) === source.id)) score += 80;
-  if ((source.generatedBy ?? []).includes(candidate.id)) score += 90;
-  if ((candidate.generatedBy ?? []).includes(source.id)) score += 90;
+  if (cachedIdSet(source, "__filterRelationIds", source.relations ?? [], relation => relation.id).has(candidate.id)) score += 100;
+  if (cachedIdSet(candidate, "__filterRelationIds", candidate.relations ?? [], relation => relation.id).has(source.id)) score += 80;
+  if (cachedIdSet(source, "__filterGeneratedBy", source.generatedBy ?? []).has(candidate.id)) score += 90;
+  if (cachedIdSet(candidate, "__filterGeneratedBy", candidate.generatedBy ?? []).has(source.id)) score += 90;
 
-  const sourcePackages = new Set(source.packages ?? []);
+  const sourcePackages = cachedSet(source, "__filterPackages", source.packages ?? []);
   for (const packageId of candidate.packages ?? []) if (sourcePackages.has(packageId)) score += 50;
 
-  const sourceTraits = new Set(source.traits ?? []);
+  const sourceTraits = cachedSet(source, "__filterTraits", source.traits ?? []);
   for (const trait of candidate.traits ?? []) if (sourceTraits.has(trait) && trait !== "-") score += 20;
 
-  const sourceKeywords = new Set(source.keywords ?? []);
+  const sourceKeywords = cachedSet(source, "__filterKeywords", source.keywords ?? []);
   for (const keyword of candidate.keywords ?? []) if (sourceKeywords.has(keyword)) score += 5;
 
-  const sourceRoles = new Set(source.roles ?? []);
+  const sourceRoles = cachedSet(source, "__filterRoles", source.roles ?? []);
   for (const role of candidate.roles ?? []) if (sourceRoles.has(role)) score += 3;
 
   return score;
+}
+
+function getParsedSearch(value) {
+  const source = String(value ?? "");
+  if (source === parsedSearchSource && parsedSearchResult) return parsedSearchResult;
+  parsedSearchSource = source;
+  parsedSearchResult = parseSearch(source);
+  return parsedSearchResult;
 }
 
 function parseSearch(value) {
@@ -171,18 +186,22 @@ function parseSearch(value) {
 
 function resolveRelatedTargets(wantedNames) {
   if (!wantedNames.length) return [];
-  const normalizedCards = state.cards.map(card => ({ card, name: lower(card.name) }));
+  if (relatedIndexCards !== state.cards) {
+    relatedIndexCards = state.cards;
+    relatedNameEntries = state.cards.map(card => ({ card, name: lower(card.name) }));
+  }
+
   return wantedNames.map(wanted =>
-    normalizedCards.find(entry => entry.name === wanted)?.card ??
-    normalizedCards.find(entry => entry.name.includes(wanted))?.card ??
+    relatedNameEntries.find(entry => entry.name === wanted)?.card ??
+    relatedNameEntries.find(entry => entry.name.includes(wanted))?.card ??
     null
   );
 }
 
 function matchesAdvancedSearch(card, query, relatedTargets) {
-  const roles = (card.roles ?? []).map(lower);
-  const traits = (card.traits ?? []).map(lower);
-  const keywords = (card.keywords ?? []).map(lower);
+  const roles = cachedLowerList(card, "__filterLowerRoles", card.roles ?? []);
+  const traits = cachedLowerList(card, "__filterLowerTraits", card.traits ?? []);
+  const keywords = cachedLowerList(card, "__filterLowerKeywords", card.keywords ?? []);
 
   if (query.roles.length && !query.roles.every(value => roles.some(role => role.includes(value)))) return false;
   if (query.traits.length && !query.traits.every(value => traits.some(trait => trait.includes(value)))) return false;
@@ -190,14 +209,17 @@ function matchesAdvancedSearch(card, query, relatedTargets) {
   if (query.sets.length && !query.sets.every(value => lower(card.set).includes(value))) return false;
 
   if (relatedTargets.length) {
+    const relationIds = cachedIdSet(card, "__filterRelationIds", card.relations ?? [], relation => relation.id);
+    const generatedBy = cachedIdSet(card, "__filterGeneratedBy", card.generatedBy ?? []);
+
     for (const target of relatedTargets) {
       if (!target) return false;
       const linked =
         card.id === target.id ||
-        (card.relations ?? []).some(relation => Number(relation.id) === target.id) ||
-        (target.relations ?? []).some(relation => Number(relation.id) === card.id) ||
-        (card.generatedBy ?? []).includes(target.id) ||
-        (target.generatedBy ?? []).includes(card.id);
+        relationIds.has(target.id) ||
+        cachedIdSet(target, "__filterRelationIds", target.relations ?? [], relation => relation.id).has(card.id) ||
+        generatedBy.has(target.id) ||
+        cachedIdSet(target, "__filterGeneratedBy", target.generatedBy ?? []).has(card.id);
       if (!linked) return false;
     }
   }
@@ -220,6 +242,41 @@ function matchesAdvancedSearch(card, query, relatedTargets) {
   }
 
   return true;
+}
+
+function cachedSet(card, key, values) {
+  if (card?.[key] instanceof Set) return card[key];
+  const set = new Set(values);
+  cacheValue(card, key, set);
+  return set;
+}
+
+function cachedIdSet(card, key, values, selector = value => value) {
+  if (card?.[key] instanceof Set) return card[key];
+  const set = new Set(values.map(selector).map(Number).filter(Number.isFinite));
+  cacheValue(card, key, set);
+  return set;
+}
+
+function cachedLowerList(card, key, values) {
+  if (Array.isArray(card?.[key])) return card[key];
+  const list = values.map(lower);
+  cacheValue(card, key, list);
+  return list;
+}
+
+function cacheValue(card, key, value) {
+  if (!card || typeof card !== "object") return;
+  try {
+    Object.defineProperty(card, key, {
+      value,
+      configurable: true,
+      enumerable: false,
+      writable: true
+    });
+  } catch {
+    card[key] = value;
+  }
 }
 
 function lower(value) {
