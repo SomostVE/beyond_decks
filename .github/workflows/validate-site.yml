@@ -43,6 +43,9 @@ jobs:
       - name: Run Beyond Codex migration regression
         run: node scripts/check-beyond-codex-migration.mjs
 
+      - name: Check retired tool cleanup
+        run: node scripts/check-retired-tools-removed.mjs
+
       - name: Run Collection UI structure regression
         run: node scripts/check-collection-ui-structure.mjs
 
