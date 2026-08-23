@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deck Lab · Shadowverse Deck Assistant</title>
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/tools.css">
-  <link rel="stylesheet" href="./css/lab-graph.css">
-  <link rel="stylesheet" href="./css/modern-tools.css?v=20260818-1">
+  <title>Deck Lab · Beyond Decks</title>
+  <link rel="stylesheet" href="./css/base.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/tools.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/lab-graph.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/modern-tools.css?v=01.05.008">
 </head>
 <body class="tools-body">
   <header class="tools-header">
     <a class="button" href="./index.html">← Cards</a>
     <a class="button" href="./engines.html">Engines</a>
     <a class="button" href="./collection.html">Collection</a>
+    <a class="button" href="./battle.html">Battle Sim</a>
     <span class="tools-title">Deck Lab</span>
     <select id="lab-format" aria-label="Format">
       <option value="Rotation">Rotation</option>
@@ -98,7 +99,9 @@
     </section>
   </main>
 
-  <script type="module" src="./js/lab.js"></script>
-  <script type="module" src="./js/lab-graph.js"></script>
+  <script type="module" src="./js/version-guard.js?v=01.05.008"></script>
+  <script type="module" src="./js/tool-page-nav.js?v=01.05.008"></script>
+  <script type="module" src="./js/lab.js?v=01.05.008"></script>
+  <script type="module" src="./js/lab-graph.js?v=01.05.008"></script>
 </body>
 </html>
