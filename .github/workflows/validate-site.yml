@@ -46,6 +46,9 @@ jobs:
       - name: Check retired tool cleanup
         run: node scripts/check-retired-tools-removed.mjs
 
+      - name: Run filter state regression
+        run: node scripts/check-filter-state.mjs
+
       - name: Run Collection UI structure regression
         run: node scripts/check-collection-ui-structure.mjs
 
