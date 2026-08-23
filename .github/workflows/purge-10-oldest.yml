@@ -1,3 +1,4 @@
+# Triggered through a normal maintenance merge.
 name: Purge 10 oldest branches
 
 on:
