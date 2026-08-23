@@ -1,7 +1,7 @@
 const header = document.querySelector(".tools-header");
 
-ensureStylesheet("./css/tools-mobile.css?v=01.05.002", "tools-mobile.css");
-ensureStylesheet("./css/tool-header.css?v=01.05.002", "tool-header.css");
+ensureStylesheet("./css/tools-mobile.css", "tools-mobile.css");
+ensureStylesheet("./css/tool-header.css", "tool-header.css");
 
 if (header) {
   const pages = [
