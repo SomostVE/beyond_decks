@@ -100,6 +100,18 @@ function enrichCards(cards, packages, customTags) {
       card.roles.push("Generate");
     }
     card.roles.sort();
+    card.__searchText = [
+      card.name,
+      card.text,
+      card.set,
+      card.class,
+      card.type,
+      card.rarity,
+      ...(card.traits ?? []),
+      ...(card.keywords ?? []),
+      ...(card.roles ?? []),
+      ...(card.customTags ?? [])
+    ].join(" ").toLowerCase();
   }
 }
 
