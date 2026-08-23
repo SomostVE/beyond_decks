@@ -6,6 +6,7 @@ const version = JSON.parse(read("version.json")).version;
 const codex = read("js/codex-client.js");
 const loader = read("js/data-loader.js");
 const report = read("js/update-report.js");
+const serviceWorker = read("sw.js");
 const syncScript = read("scripts/sync-beyond-codex.mjs");
 const validationWorkflow = read(".github/workflows/validate-site.yml");
 const referenceWorkflow = read(".github/workflows/update-reference-decks.yml");
@@ -19,6 +20,8 @@ assert.match(loader, /loadOfficialCardData/, "Main data loader must use the Beyo
 assert.doesNotMatch(loader, /extractOfficialKeywords/, "Beyond Decks must not re-parse official keywords owned by Codex");
 assert.match(loader, /Beyond Codex owns official keyword extraction/, "Data loader must document the normalization ownership boundary");
 assert.match(report, /loadOfficialChangelog/, "Update report must use the Beyond Codex changelog");
+assert.match(serviceWorker, /CODEX_API_PATH = "\/beyond_codex\/api\/"/, "Service worker must identify the same-origin Codex API path");
+assert.match(serviceWorker, /url\.pathname\.startsWith\(CODEX_API_PATH\)[\s\S]*?fetch\(request, \{ cache: "no-store" \}\)/, "Codex API requests must bypass the application cache");
 assert.equal(fs.existsSync("scripts/update-cards.mjs"), false, "Official card updater belongs in Beyond Codex, not Beyond Decks");
 assert.equal(fs.existsSync(".github/workflows/update-cards.yml"), false, "Official card update workflow belongs in Beyond Codex");
 assert.equal(fs.existsSync("scripts/sync-beyond-codex.mjs"), true, "Battle CI must have a transient Codex snapshot sync helper");
