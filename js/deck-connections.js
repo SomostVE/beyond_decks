@@ -1,1 +1,71 @@
-import{state}from'./state.js';import{getMainDeckMap}from'./tools-common.js';if(document.getElementById('deck-list'))setInterval(run,700);function run(){if(!state.cardMap?.size)return;const m=getMainDeckMap(state.deck),cards=[...m.keys()].map(id=>state.cardMap.get(Number(id))).filter(Boolean);for(const row of document.querySelectorAll('#deck-list .deck-row')){const name=row.querySelector('.deck-row-title>strong')?.textContent?.trim(),c=cards.find(x=>x.name===name),meta=row.querySelector('.deck-row-meta');if(!c||!meta)continue;let direct=false,shared=false;for(const o of cards){if(o.id===c.id)continue;if((c.relations??[]).some(r=>Number(r.id)===o.id)||(o.relations??[]).some(r=>Number(r.id)===c.id))direct=true;const t=new Set(c.traits??[]);if((o.traits??[]).some(v=>v&&v!=='-'&&t.has(v)))shared=true}const level=direct?'Strong':shared?'Medium':'Weak';let b=meta.querySelector('.deck-synergy-badge');if(!b){b=document.createElement('span');meta.append(b)}b.className='deck-synergy-badge synergy-'+level.toLowerCase();if(b.textContent!==level)b.textContent=level;b.title=level+' connection: official relations and shared archetype traits'}}
+import { state } from "./state.js";
+import { getMainDeckMap } from "./tools-common.js";
+
+const root = document.getElementById("deck-list");
+let scheduled = false;
+
+if (root) {
+  new MutationObserver(schedule).observe(root, { childList: true, subtree: true });
+  waitForCards();
+}
+
+function waitForCards() {
+  if (state.cardMap?.size) {
+    schedule();
+    return;
+  }
+  setTimeout(waitForCards, 120);
+}
+
+function schedule() {
+  if (scheduled) return;
+  scheduled = true;
+  requestAnimationFrame(() => {
+    scheduled = false;
+    renderConnections();
+  });
+}
+
+function renderConnections() {
+  if (!root || !state.cardMap?.size) return;
+
+  const mainDeck = getMainDeckMap(state.deck);
+  const cards = [...mainDeck.keys()]
+    .map(id => state.cardMap.get(Number(id)))
+    .filter(Boolean);
+  const cardsByName = new Map(cards.map(card => [card.name, card]));
+  const traitSets = new Map(cards.map(card => [card.id, new Set((card.traits ?? []).filter(value => value && value !== "-"))]));
+
+  for (const row of root.querySelectorAll(".deck-row")) {
+    const name = row.querySelector(".deck-row-title > strong")?.textContent?.trim();
+    const card = cardsByName.get(name);
+    const meta = row.querySelector(".deck-row-meta");
+    if (!card || !meta) continue;
+
+    let direct = false;
+    let shared = false;
+    const cardTraits = traitSets.get(card.id) ?? new Set();
+
+    for (const other of cards) {
+      if (other.id === card.id) continue;
+      if (
+        (card.relations ?? []).some(relation => Number(relation.id) === other.id) ||
+        (other.relations ?? []).some(relation => Number(relation.id) === card.id)
+      ) {
+        direct = true;
+        break;
+      }
+      if (!shared && (other.traits ?? []).some(value => cardTraits.has(value))) shared = true;
+    }
+
+    const level = direct ? "Strong" : shared ? "Medium" : "Weak";
+    let badge = meta.querySelector(".deck-synergy-badge");
+    if (!badge) {
+      badge = document.createElement("span");
+      meta.append(badge);
+    }
+    badge.className = `deck-synergy-badge synergy-${level.toLowerCase()}`;
+    if (badge.textContent !== level) badge.textContent = level;
+    badge.title = `${level} connection: official relations and shared archetype traits`;
+  }
+}
