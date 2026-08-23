@@ -32,8 +32,6 @@ if (shell) {
     primaryNav.innerHTML = `
       <a href="./collection.html">Collection</a>
       <a href="./battle.html">Battle Sim</a>
-      <a href="./engines.html">Engines</a>
-      <a href="./lab.html">Deck Lab</a>
     `;
     drawerHead.insertAdjacentElement("afterend", primaryNav);
   }
