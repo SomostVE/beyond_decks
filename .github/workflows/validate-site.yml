@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+  schedule:
+    # Beyond Codex refreshes at 04:20 UTC every Monday. Run the downstream
+    # application audit after that snapshot has had time to publish.
+    - cron: "0 5 * * 1"
 
 concurrency:
   group: validate-site-${{ github.workflow }}-${{ github.ref }}
