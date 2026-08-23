@@ -39,8 +39,9 @@ export function pruneUnavailableFilters() {
   return changed;
 }
 
-export function filteredCards() {
+export function filteredCards({ sort = true } = {}) {
   const query = parseSearch(state.search);
+  const relatedTargets = resolveRelatedTargets(query.related);
   const discoverSource = state.discoverCardId ? state.cardMap.get(Number(state.discoverCardId)) : null;
 
   const cards = state.cards.filter(card => {
@@ -58,7 +59,7 @@ export function filteredCards() {
     if (state.ownedOnly && card.deckSelectable && card.set !== "Basic" && Number(card.setId) !== 10000 && Number(state.owned.get(card.id) ?? 0) <= 0) return false;
     if (state.missingOnly && !isMissingFromCurrentDeck(card)) return false;
 
-    if (!matchesAdvancedSearch(card, query)) return false;
+    if (!matchesAdvancedSearch(card, query, relatedTargets)) return false;
 
     if (state.filters.costs.size && !matchesCostFilter(card.cost)) return false;
     if (state.filters.sets.size && !state.filters.sets.has(card.set)) return false;
@@ -80,6 +81,8 @@ export function filteredCards() {
     return true;
   });
 
+  if (!sort) return cards;
+
   if (discoverSource) {
     cards.sort((a, b) =>
       discoveryScore(discoverSource, b) - discoveryScore(discoverSource, a) ||
@@ -90,6 +93,10 @@ export function filteredCards() {
   }
 
   return cards;
+}
+
+export function countFilteredCards() {
+  return filteredCards({ sort: false }).length;
 }
 
 export function matchesFormat(card, format = state.format) {
@@ -162,7 +169,17 @@ function parseSearch(value) {
   return filters;
 }
 
-function matchesAdvancedSearch(card, query) {
+function resolveRelatedTargets(wantedNames) {
+  if (!wantedNames.length) return [];
+  const normalizedCards = state.cards.map(card => ({ card, name: lower(card.name) }));
+  return wantedNames.map(wanted =>
+    normalizedCards.find(entry => entry.name === wanted)?.card ??
+    normalizedCards.find(entry => entry.name.includes(wanted))?.card ??
+    null
+  );
+}
+
+function matchesAdvancedSearch(card, query, relatedTargets) {
   const roles = (card.roles ?? []).map(lower);
   const traits = (card.traits ?? []).map(lower);
   const keywords = (card.keywords ?? []).map(lower);
@@ -172,9 +189,8 @@ function matchesAdvancedSearch(card, query) {
   if (query.keywords.length && !query.keywords.every(value => keywords.some(keyword => keyword.includes(value)))) return false;
   if (query.sets.length && !query.sets.every(value => lower(card.set).includes(value))) return false;
 
-  if (query.related.length) {
-    for (const wanted of query.related) {
-      const target = state.cards.find(candidate => lower(candidate.name) === wanted || lower(candidate.name).includes(wanted));
+  if (relatedTargets.length) {
+    for (const target of relatedTargets) {
       if (!target) return false;
       const linked =
         card.id === target.id ||
@@ -187,7 +203,7 @@ function matchesAdvancedSearch(card, query) {
   }
 
   if (query.free) {
-    const haystack = [
+    const haystack = card.__searchText ?? [
       card.name,
       card.text,
       card.set,
