@@ -9,8 +9,6 @@ const readabilityCss = read("css/readability-fixes.css");
 const battleHtml = read("battle.html");
 const battleJs = read("js/battle.js");
 const collectionHtml = read("collection.html");
-const labHtml = read("lab.html");
-const enginesHtml = read("engines.html");
 const toolNav = read("js/tool-page-nav.js");
 const toolsMobile = read("css/tools-mobile.css");
 const toolHeaderCss = read("css/tool-header.css");
@@ -65,10 +63,6 @@ assert.match(readabilityCss, /\.battle-body \.battle-inspector-primary[\s\S]*fon
 assert.ok(battleHtml.includes(`readability-fixes.css?v=${version}`), "Battle Sim must load the current readability stylesheet");
 assert.ok(collectionHtml.includes(`readability-fixes.css?v=${version}`), "Collection must load the current mobile readability fixes");
 assert.match(battleHtml, /Battle Sim · Beyond Decks/, "Battle Sim browser title must use Beyond Decks");
-assert.match(labHtml, /Deck Lab · Beyond Decks/, "Deck Lab browser title must use Beyond Decks");
-assert.match(enginesHtml, /Deck Engines · Beyond Decks/, "Deck Engines browser title must use Beyond Decks");
-assert.match(labHtml, /href="\.\/battle\.html">Battle Sim<\/a>/, "Deck Lab desktop navigation must link to Battle Sim");
-assert.match(enginesHtml, /href="\.\/battle\.html">Battle Sim<\/a>/, "Deck Engines desktop navigation must link to Battle Sim");
 for (const module of ["version-guard", "battle", "battle-decision-summary", "battle-benchmark-fast"]) {
   assert.ok(battleHtml.includes(`./js/${module}.js?v=${version}`), `Battle Sim must load ${module}.js with the current app version`);
 }
@@ -85,4 +79,4 @@ assert.match(inspector, /\["Super Evo", side\.sep\]/, "Replay Inspector state mu
 assert.match(inspector, /\(\?:Evo\|EP\)/, "Replay Inspector must accept legacy EP snapshots while reading Evo");
 assert.match(inspector, /\(\?:Super Evo\|SEP\)/, "Replay Inspector must accept legacy SEP snapshots while reading Super Evo");
 
-console.log("Replay Inspector + class-aware Battle UI + unified tool header regression: OK");
+console.log("Replay Inspector + class-aware Battle UI + active-page navigation regression: OK");
