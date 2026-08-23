@@ -12,7 +12,6 @@ Browser-based deck builder, collection manager, deck analysis toolkit and Battle
 - Deck building with Undo / Redo, saved variants and Import / Export
 - Collection tracking, set completion and craft planning
 - Deck analysis: curve, card types, roles, keywords and generated-card dependencies
-- Deck Lab and Engines tools
 - Battle Sim with deterministic seeds, replay inspection and AI decision-making
 - AI look-ahead, target selection, Fuse support and full-turn planning
 - Benchmarks against reference decks
