@@ -20,7 +20,7 @@ Browser-based deck builder, collection manager, deck analysis toolkit and Battle
 
 ## Battle Sim status
 
-Battle Sim is considered **share-ready** from version **01.05.000**. The current Beyond Codex card snapshot is covered by the strict all-card audit, per-class behavior regressions, high-risk runtime checks, replay smoke tests and benchmark calibration used by CI.
+Battle Sim is considered **share-ready** from version **01.05.000**. The active Beyond Codex card snapshot is covered by the strict all-card audit, per-class behavior regressions, high-risk runtime checks, replay smoke tests and benchmark calibration used by CI.
 
 Class identity is enforced at the simulation boundary: a normal deck can contain its selected class plus Neutral cards only. Mechanics that are exclusive in the official data are locked to their owning class — **Combo** to Forestcraft, **Rally** to Swordcraft, **Spellboost / Earth Rite** to Runecraft, **Overflow** to Dragoncraft and **Necromancy** to Abysscraft. Mechanics that are genuinely shared by official cards are not artificially class-locked; for example, **Reanimate** also appears on a Neutral card.
 
@@ -37,7 +37,7 @@ Application layer: deck building, collection management, analysis tools and Batt
 
 ### Beyond Codex
 
-Data layer: acquisition, normalization, versioned JSON endpoints and weekly card-data updates.
+Data layer: acquisition, normalization, validation, versioned JSON endpoints and weekly card-data updates.
 
 - API documentation: https://somostve.github.io/beyond_codex/
 - Repository: https://github.com/SomostVE/beyond_codex
@@ -52,15 +52,19 @@ Data layer: acquisition, normalization, versioned JSON endpoints and weekly card
 Official Shadowverse: Worlds Beyond Deck Portal
                     ↓
               Beyond Codex
-       normalize · validate · version
+       acquire · normalize · validate
+                    ↓
+        stable API v1 snapshot
                     ↓
               Beyond Decks
 ```
 
-Beyond Decks consumes **Beyond Codex API v1** as its primary official card-data source. The embedded official snapshot is retained only as a resilience fallback if Codex is temporarily unavailable.
+Beyond Decks consumes **Beyond Codex API v1** as its only runtime source for official card data. The browser first uses the GitHub Pages API endpoint and can retry through the Raw GitHub endpoint if the first endpoint is unavailable. Cards, metadata and manifest are validated as one coherent snapshot before the application accepts them.
+
+Beyond Decks no longer versions a duplicate `data/official/cards.json` snapshot. CI downloads a temporary Codex snapshot before Battle Sim audits so the tests always cover the same current card database that the application is expected to consume. The temporary files are ignored by Git and are not an application data source.
 
 Beyond Codex refreshes its dataset automatically every Monday and can also be refreshed manually through GitHub Actions. Application-specific data such as packages, tags, reference decks, collection state and Battle Sim logic remain owned by Beyond Decks.
 
 ## API ownership
 
-Beyond Decks does **not** query the official Shadowverse Deck Portal directly during normal use. Official card acquisition and normalization belong to Beyond Codex, while Beyond Decks focuses on application behavior and user-facing tools.
+Beyond Decks does **not** query the official Shadowverse Deck Portal directly. Official card acquisition, normalization, keyword extraction and snapshot integrity belong to Beyond Codex, while Beyond Decks focuses on application behavior and user-facing tools.
