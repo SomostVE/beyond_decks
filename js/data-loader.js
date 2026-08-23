@@ -18,6 +18,7 @@ export async function loadData() {
   const customTags = tagData?.cards && typeof tagData.cards === "object" ? tagData.cards : {};
   const globalExclusions = new Set((exclusionData?.global ?? []).map(Number));
 
+  if (metadata.generatedAt) localStorage.setItem("svwb-database-generated-at", String(metadata.generatedAt));
   enrichCards(cards, packages, customTags);
 
   return { cards, metadata, packages, customTags, globalExclusions };
