@@ -7,9 +7,7 @@ if (header) {
   const pages = [
     { href: "./index.html", label: "Cards", key: "index.html" },
     { href: "./collection.html", label: "Collection", key: "collection.html" },
-    { href: "./battle.html", label: "Battle Sim", key: "battle.html" },
-    { href: "./engines.html", label: "Engines", key: "engines.html" },
-    { href: "./lab.html", label: "Deck Lab", key: "lab.html" }
+    { href: "./battle.html", label: "Battle Sim", key: "battle.html" }
   ];
 
   const current = location.pathname.split("/").pop() || "index.html";
