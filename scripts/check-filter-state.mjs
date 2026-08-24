@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import assert from "node:assert/strict";
 import { state } from "../js/state.js";
-import { pruneUnavailableFilters } from "../js/filters.js";
+import { filteredCards, pruneUnavailableFilters } from "../js/filters.js";
 
 state.cards = [
-  { id: 1, class: "Dragoncraft", cost: 1, set: "Set A", type: "Follower", rarity: "Bronze", traits: ["Armed"], keywords: ["Rush"] },
-  { id: 2, class: "Portalcraft", cost: 1, set: "Set A", type: "Follower", rarity: "Bronze", traits: ["Artifact"], keywords: ["Rush"] },
-  { id: 3, class: "Neutral", cost: 2, set: "Set B", type: "Spell", rarity: "Silver", traits: ["Neutral Trait"], keywords: ["Draw"] }
+  { id: 1, class: "Dragoncraft", cost: 1, setId: 10001, set: "Set A", type: "Follower", rarity: "Bronze", traits: ["Armed"], keywords: ["Rush"], deckSelectable: true },
+  { id: 2, class: "Portalcraft", cost: 1, setId: 10001, set: "Set A", type: "Follower", rarity: "Bronze", traits: ["Artifact"], keywords: ["Rush"], deckSelectable: true },
+  { id: 3, class: "Neutral", cost: 2, setId: 10002, set: "Set B", type: "Spell", rarity: "Silver", traits: ["Neutral Trait"], keywords: ["Draw"], deckSelectable: true }
 ];
 state.includeNeutral = true;
 state.selectedClass = "Dragoncraft";
@@ -32,11 +32,44 @@ state.includeNeutral = false;
 pruneUnavailableFilters();
 assert(!state.filters.traits.has("Neutral Trait"), "Neutral-only filter must be removed when Neutral is disabled");
 
+for (const set of Object.values(state.filters)) set.clear();
+state.cards = [
+  { id: 10, class: "Havencraft", cost: 2, setId: 10008, set: "Chronicle", type: "Follower", rarity: "Gold", traits: [], keywords: [], deckSelectable: true },
+  { id: 11, class: "Neutral", cost: 3, setId: 10008, set: "Chronicle", type: "Follower", rarity: "Silver", traits: [], keywords: [], deckSelectable: true },
+  { id: 12, class: "Havencraft", cost: 1, setId: 10000, set: "Basic", type: "Follower", rarity: "Bronze", traits: [], keywords: [], deckSelectable: true },
+  { id: 13, class: "Havencraft", cost: 4, setId: 10008, set: "Chronicle", type: "Follower", rarity: "Gold", traits: [], keywords: [], deckSelectable: true }
+];
+state.cardMap = new Map(state.cards.map(card => [card.id, card]));
+state.selectedClass = "Havencraft";
+state.includeNeutral = false;
+state.format = "Unlimited";
+state.showGenerated = false;
+state.showExcluded = false;
+state.favoritesOnly = false;
+state.globalExclusions = new Set();
+state.excluded = new Set();
+state.favorites = new Set();
+state.deck = new Map([[10, 2], [11, 1], [12, 1], [13, 1]]);
+state.owned = new Map([[10, 1], [11, 0], [12, 0], [13, 1]]);
+state.ownedOnly = true;
+state.missingOnly = true;
+
+const missingIds = filteredCards({ sort: false }).map(card => card.id).sort((a, b) => a - b);
+assert.deepEqual(missingIds, [10, 11], "Missing deck view must use main-deck requirements, include missing Neutral cards, ignore Basic cards, and win over Owned-only state");
+
+state.missingOnly = false;
+state.ownedOnly = true;
+const ownedIds = filteredCards({ sort: false }).map(card => card.id).sort((a, b) => a - b);
+assert.deepEqual(ownedIds, [10, 12, 13], "Owned-only view must remain an ordinary instant filter");
+
 const qol = fs.readFileSync(new URL("../js/qol.js", import.meta.url), "utf8");
 const app = fs.readFileSync(new URL("../js/app.js", import.meta.url), "utf8");
+const formatControl = fs.readFileSync(new URL("../js/format-control.js", import.meta.url), "utf8");
 assert(qol.includes('const FILTER_KEY = "svwb-filters";'), "Filters should use one global persisted state");
 assert(!qol.includes("svwb-class-filters:"), "Per-class filter snapshots must no longer be restored");
 assert(app.includes("function refreshFilterView()"), "Filter changes must have one synchronized render path");
 assert(app.includes("pruneUnavailableFilters();"), "Class changes must prune invisible invalid filters");
+assert(formatControl.includes("refreshViewFilters()"), "Late-mounted View controls must refresh through the normal filter path");
+assert.equal((formatControl.match(/location\.reload\(\)/g) ?? []).length, 1, "Only the Format selector may reload; View filters must update in-place");
 
-console.log("Filter state regression: OK");
+console.log("Filter state + instant View filters regression: OK");
