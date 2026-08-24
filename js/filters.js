@@ -57,8 +57,9 @@ export function filteredCards({ sort = true } = {}) {
 
   const cards = state.cards.filter(card => {
     const classMatch =
+      state.missingOnly ||
       card.class === state.selectedClass ||
-      ((state.includeNeutral || state.missingOnly) && card.class === "Neutral");
+      (state.includeNeutral && card.class === "Neutral");
 
     if (!classMatch) return false;
     if (!matchesFormat(card, state.format)) return false;
