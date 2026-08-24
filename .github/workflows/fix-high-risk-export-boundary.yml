@@ -1,0 +1,37 @@
+name: Temporary High-Risk Export Boundary Fix
+
+on:
+  push:
+    branches:
+      - refactor/battle-engine-v5-01.05.024
+    paths:
+      - .github/workflows/fix-high-risk-export-boundary.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: refactor/battle-engine-v5-01.05.024
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Fix export boundary
+        run: node scripts/fix-high-risk-export-boundary.mjs
+      - name: Parse and import V5
+        run: |
+          node --check js/battle-engine-v5.js
+          node --check js/battle-engine-v5-high-risk.js
+          node -e "import('./js/battle-engine-v5.js').then(() => console.log('V5 import OK'))"
+          git diff --check
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/battle-engine-v5.js js/battle-engine-v5-high-risk.js
+          git commit -m "fix: preserve high-risk export boundary"
+          git push
