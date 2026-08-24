@@ -1,0 +1,56 @@
+name: One-shot High-Risk Boundary Fix
+
+on:
+  push:
+    branches:
+      - refactor/battle-engine-v5-01.05.024
+    paths:
+      - .github/workflows/force-fix-high-risk-boundary.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: refactor/battle-engine-v5-01.05.024
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Repair extraction boundary
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const modulePath = 'js/battle-engine-v5-high-risk.js';
+          const enginePath = 'js/battle-engine-v5.js';
+          let moduleSource = fs.readFileSync(modulePath, 'utf8');
+          const beforeModule = moduleSource;
+          moduleSource = moduleSource.replace(/(\/\/ \[\[class-mechanic-boundaries-v1\]\][\t ]*\r?\n)[\t ]*export[\t ]*\r?\n(?=[\s\S]{0,20}return \{)/, '$1');
+          if (moduleSource === beforeModule) throw new Error('Did not remove the stray standalone export from high-risk module');
+          if (/\n\s*export\s*\n\s*return \{/.test(moduleSource)) throw new Error('Standalone export still remains before return');
+          fs.writeFileSync(modulePath, moduleSource);
+
+          let engine = fs.readFileSync(enginePath, 'utf8');
+          const declaration = /(?:export\s+)?function\s+isSpellboostRecipient\b/;
+          if (!declaration.test(engine)) throw new Error('isSpellboostRecipient declaration not found');
+          engine = engine.replace(declaration, 'export function isSpellboostRecipient');
+          if (!/export\s+function\s+isSpellboostRecipient\b/.test(engine)) throw new Error('Export not restored');
+          fs.writeFileSync(enginePath, engine);
+          NODE
+      - name: Parse and import V5
+        run: |
+          node --check js/battle-engine-v5.js
+          node --check js/battle-engine-v5-high-risk.js
+          node -e "import('./js/battle-engine-v5.js').then(() => console.log('V5 import OK'))"
+          git diff --check
+      - name: Commit repaired boundary
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/battle-engine-v5.js js/battle-engine-v5-high-risk.js
+          git commit -m "fix: repair high-risk extraction boundary"
+          git push
