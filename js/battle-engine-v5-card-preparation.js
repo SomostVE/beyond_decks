@@ -1,4 +1,5 @@
 import { HANDLED_REACTIVE_CLAUSES } from "./battle-engine-v5-support.js";
+import { norm } from "./battle-engine-v5-utils.js";
 
 const GAP_HOOK = "[[battle-rule-gap-hook]]";
 const SIMULATION_CARD_MAP_CACHE = new WeakMap();
@@ -72,5 +73,3 @@ function injectGapHook(textValue) {
   if (/\bFanfare\s*:/i.test(text)) return text.replace(/\bFanfare\s*:/i, match => `${match} ${GAP_HOOK} `);
   return `${GAP_HOOK}${text ? ` ${text}` : ""}`.trim();
 }
-
-function norm(value) { return String(value ?? "").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim(); }
