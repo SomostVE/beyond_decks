@@ -35,3 +35,5 @@ jobs:
           git add js/battle-engine-v5.js js/battle-engine-v5-high-risk.js
           git commit -m "fix: preserve high-risk export boundary"
           git push
+
+# Retry after hardening the boundary matcher.
