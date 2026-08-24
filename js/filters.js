@@ -1,6 +1,5 @@
 import { state } from "./state.js";
 import { compareGameCardOrder } from "./card-sort.js";
-import { getMissingMainDeckCardIds } from "./deck-state.js";
 
 export const CLASSES = [
   "Forestcraft",
@@ -51,13 +50,9 @@ export function filteredCards({ sort = true } = {}) {
   const discoverSource = state.discoverCardId ? state.cardMap.get(Number(state.discoverCardId)) : null;
   const selectedTraits = [...state.filters.traits];
   const selectedKeywords = [...state.filters.keywords];
-  const missingDeckIds = state.missingOnly
-    ? getMissingMainDeckCardIds(state.deck, state.cardMap, state.owned)
-    : null;
 
   const cards = state.cards.filter(card => {
     const classMatch =
-      state.missingOnly ||
       card.class === state.selectedClass ||
       (state.includeNeutral && card.class === "Neutral");
 
@@ -68,8 +63,12 @@ export function filteredCards({ sort = true } = {}) {
     const isExcluded = state.excluded.has(card.id) || state.globalExclusions.has(card.id);
     if (!state.showExcluded && isExcluded) return false;
     if (state.favoritesOnly && !state.favorites.has(card.id)) return false;
-    if (state.ownedOnly && !state.missingOnly && card.deckSelectable && card.set !== "Basic" && Number(card.setId) !== 10000 && Number(state.owned.get(card.id) ?? 0) <= 0) return false;
-    if (missingDeckIds && !missingDeckIds.has(Number(card.id))) return false;
+
+    // Match the Collection page ownership filters exactly:
+    // Owned = at least one tracked copy; Missing = playset not complete.
+    const ownedCopies = Math.max(0, Number(state.owned.get(card.id)) || 0);
+    if (state.ownedOnly && (!card.deckSelectable || ownedCopies <= 0)) return false;
+    if (state.missingOnly && (!card.deckSelectable || ownedCopies >= Number(card.maxCopies ?? 3))) return false;
 
     if (!matchesAdvancedSearch(card, query, relatedTargets)) return false;
 
