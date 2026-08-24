@@ -40,7 +40,7 @@ state.cards = [
   { id: 13, class: "Havencraft", cost: 4, setId: 10008, set: "Chronicle", type: "Follower", rarity: "Gold", traits: [], keywords: [], deckSelectable: true }
 ];
 state.cardMap = new Map(state.cards.map(card => [card.id, card]));
-state.selectedClass = "Havencraft";
+state.selectedClass = "Swordcraft";
 state.includeNeutral = false;
 state.format = "Unlimited";
 state.showGenerated = false;
@@ -55,12 +55,13 @@ state.ownedOnly = true;
 state.missingOnly = true;
 
 const missingIds = filteredCards({ sort: false }).map(card => card.id).sort((a, b) => a - b);
-assert.deepEqual(missingIds, [10, 11], "Missing deck view must use main-deck requirements, include missing Neutral cards, ignore Basic cards, and win over Owned-only state");
+assert.deepEqual(missingIds, [10, 11], "Missing deck view must follow the active deck rather than the selected browsing class, include missing Neutral cards, ignore Basic cards, and win over Owned-only state");
 
+state.selectedClass = "Havencraft";
 state.missingOnly = false;
 state.ownedOnly = true;
 const ownedIds = filteredCards({ sort: false }).map(card => card.id).sort((a, b) => a - b);
-assert.deepEqual(ownedIds, [10, 12, 13], "Owned-only view must remain an ordinary instant filter");
+assert.deepEqual(ownedIds, [10, 12, 13], "Owned-only view must remain an ordinary class-scoped instant filter");
 
 const qol = fs.readFileSync(new URL("../js/qol.js", import.meta.url), "utf8");
 const app = fs.readFileSync(new URL("../js/app.js", import.meta.url), "utf8");
@@ -72,4 +73,4 @@ assert(app.includes("pruneUnavailableFilters();"), "Class changes must prune inv
 assert(formatControl.includes("refreshViewFilters()"), "Late-mounted View controls must refresh through the normal filter path");
 assert.equal((formatControl.match(/location\.reload\(\)/g) ?? []).length, 1, "Only the Format selector may reload; View filters must update in-place");
 
-console.log("Filter state + instant View filters regression: OK");
+console.log("Filter state + missing-deck class scope + instant View filters regression: OK");
