@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { analyzeCardSupport, inspectHighRiskCandidateResolution } from "../js/battle-engine-v5.js";
+import { loadBattleV5SourceCorpus } from "./battle-v5-source-corpus.mjs";
 
 const cards = JSON.parse(await fs.readFile(new URL("../data/official/cards.json", import.meta.url), "utf8"));
 const norm = value => String(value ?? "").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim();
@@ -25,7 +26,7 @@ const highRiskPatterns = [
 const scriptNames = (await fs.readdir(new URL("./", import.meta.url)))
   .filter(name => /^check-battle-.*\.mjs$/i.test(name));
 const checkCorpus = (await Promise.all(scriptNames.map(name => fs.readFile(new URL(name, import.meta.url), "utf8")))).join("\n").toLowerCase();
-const engineV5 = (await fs.readFile(new URL("../js/battle-engine-v5.js", import.meta.url), "utf8")).toLowerCase();
+const engineV5 = (await loadBattleV5SourceCorpus()).toLowerCase();
 const engineV4 = (await fs.readFile(new URL("../js/battle-engine-v4.js", import.meta.url), "utf8")).toLowerCase();
 
 const candidateCards = cards.filter(card => {
