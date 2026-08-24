@@ -1,6 +1,7 @@
 import { analyzeCardSupport as analyzeCardSupportV4 } from "./battle-engine-v4.js";
 import { FULL_OVERRIDES } from "./battle-engine-v5-overrides.js";
 import { prepareOriginalCardMap } from "./battle-engine-v5-card-preparation.js";
+import { norm, uniq } from "./battle-engine-v5-utils.js";
 
 export function analyzeDeckCoverage(deck, cardMap) {
   prepareOriginalCardMap(cardMap);
@@ -45,6 +46,3 @@ export function normalizeDeck(deck) {
     : [Number(entry.cardId ?? entry.id), Number(entry.qty ?? entry.quantity ?? 1)])
     .filter(([id, qty]) => Number.isFinite(id) && qty > 0);
 }
-
-function norm(value) { return String(value ?? "").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim(); }
-function uniq(values) { return [...new Set(values.filter(Boolean).map(String))]; }
