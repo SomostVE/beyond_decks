@@ -52,17 +52,25 @@ function setup() {
     missingLabel.innerHTML = `<input id="missing-only" type="checkbox" ${state.missingOnly ? "checked" : ""}> Missing deck cards only`;
     viewBody.append(ownedLabel, missingLabel);
 
-    ownedLabel.querySelector("input").addEventListener("change", event => {
-      state.ownedOnly = event.target.checked;
-      if (state.ownedOnly) state.missingOnly = false;
-      saveWorkspace(state);
-      location.reload();
+    const ownedInput = ownedLabel.querySelector("input");
+    const missingInput = missingLabel.querySelector("input");
+
+    ownedInput.addEventListener("change", () => {
+      state.ownedOnly = ownedInput.checked;
+      if (state.ownedOnly) {
+        state.missingOnly = false;
+        missingInput.checked = false;
+      }
+      refreshViewFilters();
     });
-    missingLabel.querySelector("input").addEventListener("change", event => {
-      state.missingOnly = event.target.checked;
-      if (state.missingOnly) state.ownedOnly = false;
-      saveWorkspace(state);
-      location.reload();
+
+    missingInput.addEventListener("change", () => {
+      state.missingOnly = missingInput.checked;
+      if (state.missingOnly) {
+        state.ownedOnly = false;
+        ownedInput.checked = false;
+      }
+      refreshViewFilters();
     });
   }
 
@@ -82,4 +90,15 @@ function setup() {
       actions.insertBefore(collection, actions.firstChild?.nextSibling ?? actions.firstChild);
     }
   }
+}
+
+function refreshViewFilters() {
+  // Reuse the app's normal View-filter change path so these late-mounted
+  // controls update the filter counts/grid immediately without reloading the page.
+  const bridge = document.getElementById("favorites-only");
+  if (bridge) {
+    bridge.dispatchEvent(new Event("change", { bubbles: true }));
+    return;
+  }
+  saveWorkspace(state);
 }
