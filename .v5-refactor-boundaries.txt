@@ -1,0 +1,21 @@
+totalLines=9805
+modes=line 3577; next=expandModes@3627
+expandModes=line 3627; next=stripFuseAbilityText@3659
+stripFuseAbilityText=line 3659; next=baseText@3668
+baseText=line 3668; next=crystallizeText@3680
+section=line 3690; next=targetableEnemyFollowers@3706
+playableOptions=missing
+inspectPlayableModes=line 1805; next=normStrategy@1825
+engageInfo=line 9092; next=bestEngage@9097
+resolveText=line 8083; next=effectContext@8459
+
+Functions from modes through section:
+3577: modes
+3627: expandModes
+3659: stripFuseAbilityText
+3668: baseText
+3680: crystallizeText
+3690: section
+3706: targetableEnemyFollowers
+3710: targetEffectSpec
+3729: followerThreatValue
