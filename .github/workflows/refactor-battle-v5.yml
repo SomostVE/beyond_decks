@@ -1,0 +1,36 @@
+name: Temporary Battle V5 Refactor
+
+on:
+  push:
+    branches:
+      - refactor/battle-engine-v5-01.05.012
+    paths:
+      - .github/workflows/refactor-battle-v5.yml
+
+permissions:
+  contents: write
+
+jobs:
+  extract-overrides:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/battle-engine-v5-01.05.012
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Extract FULL_OVERRIDES
+        run: node scripts/refactor-battle-v5-extract-overrides.mjs
+      - name: Syntax check
+        run: |
+          node --check js/battle-engine-v5.js
+          node --check js/battle-engine-v5-overrides.js
+          git diff --check
+      - name: Commit refactor
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/battle-engine-v5.js js/battle-engine-v5-overrides.js version.json index.html collection.html battle.html
+          git commit -m "refactor: extract Battle V5 coverage overrides"
+          git push
