@@ -1,0 +1,695 @@
+totalLines=9517
+topLevelFunctions=285
+
+FUNCTIONS
+  30-137   108 simulateBattle
+ 138-221    84 inspectHavenFullRules | [[battle-haven-full-qa]]
+ 222-341   120 inspectRunecraftFullRules | [[battle-runecraft-full-qa]]
+ 342-504   163 inspectRunecraftExtendedRules | [[battle-runecraft-extended-qa]]
+ 505-579    75 inspectCrestLifecycleRules | [[battle-crest-lifecycle-qa-v1]]
+ 580-739   160 inspectAbysscraftFullRules | [[battle-abysscraft-full-qa]]
+ 740-816    77 inspectHavencraftFullRules | [[battle-havencraft-final-full-qa]]
+ 817-916   100 inspectNeutralFullRules | [[battle-neutral-full-qa]]
+ 917-1039  123 inspectPortalcraftFullRules | [[battle-portalcraft-full-qa]]
+1040-1234  195 inspectDragoncraftFullRules | [[battle-dragoncraft-full-qa]]
+1235-1431  197 inspectForestcraftFullRules | [[battle-forestcraft-full-qa]]
+1432-1596  165 inspectSwordcraftFullRules | [[battle-swordcraft-full-qa]]
+1597-1602    6 inspectEffectiveCost | [[battle-swordcraft-full-qa]]
+1603-1705  103 inspectHighRiskCandidateResolution | [[battle-high-risk-runtime-probe]]
+1706-1711    6 prepareSimulationCardMap | [[battle-high-risk-runtime-probe]]
+1712-1752   41 makePlayer | [[battle-high-risk-runtime-probe]]
+1753-1779   27 installLeaderDamageGuard | [[battle-leader-damage-guard]]
+1780-1795   16 instance | [[battle-leader-damage-guard]]
+1796-1800    5 initialX | [[battle-leader-damage-guard]]
+1801-1804    4 recordHandEvolution | [[battle-leader-damage-guard]]
+1805-1808    4 skyboundCountForInstance | [[battle-leader-damage-guard]]
+1809-1828   20 inspectPlayableModes | [[battle-leader-damage-guard]]
+1829-1839   11 normStrategy | [[battle-leader-damage-guard]]
+1840-1852   13 mulligan | [[battle-leader-damage-guard]]
+1853-1873   21 shouldMulligan | [[battle-leader-damage-guard]]
+1874-1898   25 drawCards | [[battle-leader-damage-guard]]
+1899-1962   64 useBonusPpIfUseful | [[battle-ai-v1-1-extra-pp-profile]]
+1963-1972   10 bestImmediateTurnAction | [[battle-ai-v1-1-extra-pp-profile]]
+1973-2018   46 runTurnAi | [[battle-ai-full-turn-planner-v1]]
+2019-2027    9 clonePlanningItem | [[battle-ai-full-turn-planner-v1]]
+2028-2037   10 clonePlanningUnit | [[battle-ai-full-turn-planner-v1]]
+2038-2057   20 clonePlanningPlayer | [[battle-ai-full-turn-planner-v1]]
+2058-2067   10 clonePlanningState | [[battle-ai-full-turn-planner-v1]]
+2068-2081   14 planningPublicSeed | [[battle-ai-full-turn-planner-v1]]
+2082-2106   25 makePlanningRoot | [[battle-ai-full-turn-planner-v1]]
+2107-2119   13 plannerCardResourceValue | [[battle-ai-full-turn-planner-v1]]
+2120-2132   13 plannerDeathTriggerValue | [[battle-ai-stage4-exchange-value]]
+2133-2154   22 plannerBoardValue | [[battle-ai-stage4-exchange-value]]
+2155-2186   32 plannerStateValue | [[battle-ai-stage4-exchange-value]]
+2187-2198   12 actionKey | [[battle-ai-stage4-exchange-value]]
+2199-2269   71 plannerAttackPrior | [[battle-ai-stage4-exchange-value]]
+2270-2292   23 enumerateAttackDecisions | [[battle-ai-stage4-exchange-value]]
+2293-2304   12 evolutionTargetPlans | [[battle-ai-stage4-exchange-value]]
+2305-2326   22 enumerateEvolutionDecisions | [[battle-ai-stage4-exchange-value]]
+2327-2334    8 enumerateEngageDecisions | [[battle-ai-stage4-exchange-value]]
+2335-2350   16 diversifyPlannerActions | [[battle-ai-stage4-exchange-value]]
+2351-2366   16 enumeratePlannerActions | [[battle-ai-stage4-exchange-value]]
+2367-2376   10 plannerReadyFaceDamage | [[battle-ai-stage5-lethal-solver]]
+2377-2412   36 plannerOptimisticBurst | [[battle-ai-stage5-lethal-solver]]
+2413-2432   20 shouldRunPlannerLethalSearch | [[battle-ai-stage5-lethal-solver]]
+2433-2449   17 enumerateLethalPlannerActions | [[battle-ai-stage5-lethal-solver]]
+2450-2469   20 plannerLethalSearchScore | [[battle-ai-stage5-lethal-solver]]
+2470-2508   39 findPlannerLethal | [[battle-ai-stage5-lethal-solver]]
+2509-2512    4 hasAnyPlannerAction | [[battle-ai-stage5-lethal-solver]]
+2513-2563   51 executeEvolutionDecision | [[battle-ai-stage5-lethal-solver]]
+2564-2654   91 executeSingleAttackDecision | [[battle-ai-stage5-lethal-solver]]
+2655-2683   29 executePlannerAction | [[battle-ai-stage5-lethal-solver]]
+2684-2709   26 plannerEvolutionSpendCost | [[battle-ai-stage2-efficiency]]
+2710-2725   16 plannerNodeScore | [[battle-ai-stage2-efficiency]]
+2726-2804   79 planCurrentTurnBase | [[battle-ai-stage2-efficiency]]
+2805-2815   11 resetPlanningTurnState | [[battle-ai-two-turn-lookahead-v1]]
+2816-2835   20 beginPlanningTurn | [[battle-ai-two-turn-lookahead-v1]]
+2836-2841    6 finishPlanningTurn | [[battle-ai-two-turn-lookahead-v1]]
+2842-2851   10 executePlannerSequence | [[battle-ai-two-turn-lookahead-v1]]
+2852-2869   18 resampleFutureScenario | [[battle-ai-two-turn-lookahead-v1]]
+2870-2929   60 simulateOneOpponentResponse | [[battle-ai-two-turn-lookahead-v1]]
+2930-2943   14 uniqueFirstActionCandidates | [[battle-ai-two-turn-lookahead-v1]]
+2944-3001   58 buildFutureFirstActionCandidates | [[battle-ai-two-turn-lookahead-v1]]
+3002-3022   21 shouldUseTwoTurnLookahead | [[battle-ai-two-turn-lookahead-v1]]
+3023-3043   21 evaluateCandidateFuture | [[battle-ai-two-turn-lookahead-v1]]
+3044-3081   38 planCurrentTurn | [[battle-ai-two-turn-lookahead-v1]]
+3082-3106   25 plannerActionView | [[battle-ai-two-turn-lookahead-v1]]
+3107-3189   83 inspectTurnPlan | [[battle-ai-two-turn-lookahead-v1]]
+3190-3194    5 inspectTwoTurnPlan | [[battle-ai-two-turn-lookahead-v1]]
+3195-3199    5 fuseRequirement | [[battle-fuse-v1]]
+3200-3204    5 hasTrait | [[battle-fuse-v1]]
+3205-3220   16 isFuseMaterial | [[battle-fuse-v1]]
+3221-3235   15 materialHoldValue | [[battle-fuse-v1]]
+3236-3247   12 enumerateSubsets | [[battle-fuse-v1]]
+3248-3287   40 candidateFuseMaterialSets | [[battle-fuse-v1]]
+3288-3302   15 projectedFuseTransformName | [[battle-fuse-v1]]
+3303-3337   35 scoreFuseAction | [[battle-fuse-v1]]
+3338-3357   20 getFuseActions | [[battle-fuse-v1]]
+3358-3362    5 bestFuse | [[battle-fuse-v1]]
+3363-3380   18 transformHandInstance | [[battle-fuse-v1]]
+3381-3403   23 applyFuseReactiveEffects | [[battle-fuse-v1]]
+3404-3415   12 applyLootPlayedTrigger | [[battle-fuse-v1]]
+3416-3456   41 resolveFuseAction | [[battle-fuse-v1]]
+3457-3538   82 inspectFuseSequence | [[battle-fuse-v1]]
+3539-3549   11 hasBlockedBoardDevelopment | [[battle-fuse-v1]]
+3550-3574   25 estimateTurnSpend | [[battle-fuse-v1]]
+3575-3584   10 getModesForHand | [[battle-fuse-v1]]
+3585-3591    7 scoredPlayOptions | [[battle-fuse-v1]]
+3592-3600    9 bestPlay | [[battle-fuse-v1]]
+3601-3659   59 inspectAiPlayChoice | [[battle-fuse-v1]]
+3660-3673   14 inspectRandomEnemyTargets | [[battle-fuse-v1]]
+3674-3695   22 scorePassDecision | [[battle-fuse-v1]]
+3696-3716   21 estimateVisibleIncomingDamage | [[battle-fuse-v1]]
+3717-3723    7 canThreatenLeaderNextTurn | [[battle-fuse-v1]]
+3724-3771   48 projectedSurvivalAfterPlay | [[battle-fuse-v1]]
+3772-3791   20 survivalLookaheadValue | [[battle-fuse-v1]]
+3792-3821   30 timingLookaheadValue | [[battle-fuse-v1]]
+3822-3869   48 scorePlay | [[battle-fuse-v1]]
+3870-3891   22 continuationValue | [[battle-fuse-v1]]
+3892-3900    9 strongestFollowerThreat | [[battle-fuse-v1]]
+3901-3987   87 playCard | [[battle-fuse-v1]]
+3988-4026   39 applyEnhancedCardPlayed | [[battle-enhance-play-helper]]
+4027-4032    6 bindHavencraftRuntime | [[battle-havencraft-final-full-rules]]
+4033-4067   35 applyHavencraftDrawTriggers | [[battle-havencraft-final-full-rules]]
+4068-4094   27 applyHavencraftEngageTriggers | [[battle-havencraft-final-full-rules]]
+4095-4104   10 applyHavencraftSuperEvolveHandTriggers | [[battle-havencraft-final-full-rules]]
+4105-4114   10 applyHavencraftMarkedEndTurnBanish | [[battle-havencraft-final-full-rules]]
+4115-4131   17 dealHavenSplitDamage | [[battle-havencraft-final-full-rules]]
+4132-4135    4 drawDefenseFourFollower | [[battle-havencraft-final-full-rules]]
+4136-4158   23 havencraftCrestLastWords | [[battle-havencraft-final-full-rules]]
+4159-4196   38 applyHavencraftCrestTurnEnd | [[battle-havencraft-final-full-rules]]
+4197-4337  141 resolveHavencraftCardText | [[battle-havencraft-final-full-rules]]
+4338-4351   14 replaceWithMjerrabaineDeck | [[battle-neutral-full-rules]]
+4352-4372   21 replaceWithApocalypseDeck | [[battle-neutral-full-rules]]
+4373-4389   17 applyNeutralCardPlayedTriggers | [[battle-neutral-full-rules]]
+4390-4407   18 neutralCrestLastWords | [[battle-neutral-full-rules]]
+4408-4417   10 applyNeutralMarkedEndTurnBanish | [[battle-neutral-full-rules]]
+4418-4439   22 applyNeutralCrestTurnEnd | [[battle-neutral-full-rules]]
+4440-4535   96 resolveNeutralCardText | [[battle-neutral-full-rules]]
+4536-4539    4 isPortalArtifactFollower | [[battle-portalcraft-full-rules]]
+4540-4543    4 isPortalPuppetryFollower | [[battle-portalcraft-full-rules]]
+4544-4547    4 isBaseCostAtLeast | [[battle-portalcraft-full-rules]]
+4548-4553    6 applyPortalTemporaryCost | [[battle-portalcraft-full-rules]]
+4554-4557    4 applyPortalTemporaryCostToHand | [[battle-portalcraft-full-rules]]
+4558-4566    9 restorePortalcraftTemporaryCosts | [[battle-portalcraft-full-rules]]
+4567-4619   53 applyPortalcraftEntryEvents | [[battle-portalcraft-full-rules]]
+4620-4629   10 applyPortalcraftSpellPlayedTriggers | [[battle-portalcraft-full-rules]]
+4630-4638    9 chooseUnusedPortalMode | [[battle-portalcraft-full-rules]]
+4639-4668   30 applyPortalcraftSlausMode | [[battle-portalcraft-full-rules]]
+4669-4680   12 applyPortalcraftPreTickCrestTurnStart | [[battle-portalcraft-full-rules]]
+4681-4695   15 applyPortalcraftCrestTurnEnd | [[battle-portalcraft-full-rules]]
+4696-4759   64 resolvePortalcraftCardText | [[battle-portalcraft-full-rules]]
+4760-4776   17 boardFollower | [[battle-portalcraft-full-rules]]
+4777-4793   17 boardAmulet | [[battle-portalcraft-full-rules]]
+4794-4799    6 recordAbyssModeSelection | [[battle-abysscraft-full-rules]]
+4800-4803    4 isDepartedFollower | [[battle-abysscraft-full-rules]]
+4804-4832   29 applyAbysscraftEntryEvents | [[battle-abysscraft-full-rules]]
+4833-4843   11 applyAbysscraftSuperEvolveTriggers | [[battle-abysscraft-full-rules]]
+4844-4859   16 applyAbysscraftFollowerDestroyedEvents | [[battle-abysscraft-full-rules]]
+4860-4870   11 applyAbysscraftCrestTurnStart | [[battle-abysscraft-full-rules]]
+4871-4880   10 handHasFourSameCost | [[battle-abysscraft-full-rules]]
+4881-4923   43 applyAbysscraftCrestTurnEnd | [[battle-abysscraft-full-rules]]
+4924-4931    8 abysscraftCrestLastWords | [[battle-abysscraft-full-rules]]
+4932-4940    9 destroyAbyssCrest | [[battle-abysscraft-full-rules]]
+4941-4949    9 advanceAbyssCrest | [[battle-abysscraft-full-rules]]
+4950-4965   16 transformFollowerInto | [[battle-abysscraft-full-rules]]
+4966-5095  130 resolveAbysscraftCardText | [[battle-abysscraft-full-rules]]
+5096-5099    4 isMarineFollower | [[battle-dragoncraft-full-rules]]
+5100-5116   17 drawMatchingCard | [[battle-dragoncraft-full-rules]]
+5117-5157   41 applyDragoncraftEntryEvents | [[battle-dragoncraft-full-rules]]
+5158-5174   17 applyDragoncraftSuperEvolveHandTriggers | [[battle-dragoncraft-full-rules]]
+5175-5182    8 restoreDragoncraftTemporaryCosts | [[battle-dragoncraft-full-rules]]
+5183-5199   17 applyDragoncraftAttackDeclaration | [[battle-dragoncraft-full-rules]]
+5200-5217   18 dragoncraftCrestLastWords | [[battle-dragoncraft-full-rules]]
+5218-5228   11 applyDragoncraftFollowerTurnEnd | [[battle-dragoncraft-full-rules]]
+5229-5252   24 applyDragoncraftCrestTurnEnd | [[battle-dragoncraft-full-rules]]
+5253-5261    9 triggerDiscardedCard | [[battle-dragoncraft-full-rules]]
+5262-5276   15 discardDragoncraftCard | [[battle-dragoncraft-full-rules]]
+5277-5289   13 applyAzurifritTripleDamage | [[battle-dragoncraft-full-rules]]
+5290-5363   74 resolveDragoncraftCardText | [[battle-dragoncraft-full-rules]]
+5364-5367    4 isPixieFollower | [[battle-forestcraft-full-rules]]
+5368-5378   11 applyForestSuperEvolveHandTriggers | [[battle-forestcraft-full-rules]]
+5379-5409   31 applyForestEvolutionTriggers | [[battle-forestcraft-full-rules]]
+5410-5431   22 summonExactFollowerCopy | [[battle-forestcraft-full-rules]]
+5432-5444   13 applyForestEntryEvents | [[battle-forestcraft-full-rules]]
+5445-5466   22 forestcraftCrestLastWords | [[battle-forestcraft-full-rules]]
+5467-5477   11 applyForestCrestTurnStart | [[battle-forestcraft-full-rules]]
+5478-5502   25 applyForestCrestTurnEnd | [[battle-forestcraft-full-rules]]
+5503-5511    9 applyForestFollowerPlayedCrest | [[battle-forestcraft-full-rules]]
+5512-5529   18 transformEnemyFollowerInto | [[battle-forestcraft-full-rules]]
+5530-5651  122 resolveForestcraftCardText | [[battle-forestcraft-full-rules]]
+5652-5655    4 runecraftTrait | [[battle-runecraft-exact-rules]]
+5656-5659    4 isCrystalspawn | [[battle-runecraft-exact-rules]]
+5660-5663    4 isGolemFollower | [[battle-runecraft-exact-rules]]
+5664-5669    6 recordDestroyedShikigami | [[battle-runecraft-exact-rules]]
+5670-5683   14 performEarthRite | [[battle-runecraft-exact-rules]]
+5684-5697   14 silenceFollower | [[battle-runecraft-exact-rules]]
+5698-5708   11 applySwordcraftSuperEvolveHandTriggers | [[battle-swordcraft-full-rules]]
+5709-5726   18 applySwordcraftSpellPlayedTriggers | [[battle-swordcraft-full-rules]]
+5727-5751   25 swordcraftCrestLastWords | [[battle-swordcraft-full-rules]]
+5752-5762   11 applySwordcraftLootCrestEvent | [[battle-swordcraft-full-rules]]
+5763-5774   12 applySwordcraftCrestTurnEnd | [[battle-swordcraft-full-rules]]
+5775-5790   16 applySwordcraftEnemyEntryEvents | [[battle-swordcraft-full-rules]]
+5791-5797    7 applySwordcraftTurnStartLocks | [[battle-swordcraft-full-rules]]
+5798-5803    6 clearSwordcraftTurnLocks | [[battle-swordcraft-full-rules]]
+5804-5856   53 resolveSwordcraftCardText | [[battle-swordcraft-full-rules]]
+5857-5876   20 runecraftCrestLastWords | [[battle-swordcraft-full-rules]]
+5877-5884    8 destroyRunecraftCrest | [[battle-swordcraft-full-rules]]
+5885-5941   57 applyRunecraftEntryEvents | [[battle-swordcraft-full-rules]]
+5942-5950    9 applyRunecraftCardPlayedTriggers | [[battle-swordcraft-full-rules]]
+5951-5962   12 applyInstituteChangedCostTrigger | [[battle-swordcraft-full-rules]]
+5963-5968    6 applyRunecraftAttackDeclaration | [[battle-swordcraft-full-rules]]
+5969-5997   29 applyRunecraftCrestTurnStart | [[battle-swordcraft-full-rules]]
+5998-6029   32 applyRunecraftCrestTurnEnd | [[battle-swordcraft-full-rules]]
+6030-6045   16 applyRunecraftOpponentTurnEndCrests | [[battle-swordcraft-full-rules]]
+6046-6070   25 transformAlliedFollowersFromDeck | [[battle-swordcraft-full-rules]]
+6071-6209  139 resolveRunecraftCardText | [[battle-swordcraft-full-rules]]
+6210-6216    7 buff | [[battle-high-risk-generic-foundation]]
+6217-6222    6 highRiskWordNumber | [[battle-high-risk-generic-foundation]]
+6223-6226    4 highRiskIsArtifact | [[battle-high-risk-generic-foundation]]
+6227-6241   15 highRiskCopyInstance | [[battle-high-risk-generic-foundation]]
+6242-6259   18 highRiskAddCopyToHand | [[battle-high-risk-generic-foundation]]
+6260-6270   11 highRiskSummonExactFromHand | [[battle-high-risk-generic-foundation]]
+6271-6279    9 highRiskSummonExactFromUnit | [[battle-high-risk-generic-foundation]]
+6280-6286    7 highRiskSummonAmulet | [[battle-high-risk-generic-foundation]]
+6287-6300   14 highRiskHistoryCards | [[battle-high-risk-generic-foundation]]
+6301-6311   11 highRiskDiscardItems | [[battle-high-risk-generic-foundation]]
+6312-6329   18 highRiskReplayFanfare | [[battle-high-risk-generic-foundation]]
+6330-6337    8 highRiskRandomAbilitySegments | [[battle-high-risk-generic-foundation]]
+6338-6343    6 highRiskApplyEndOpponentTurnDestruction | [[battle-high-risk-generic-foundation]]
+6344-6354   11 highRiskRestoreOpponentHandCosts | [[battle-high-risk-generic-foundation]]
+6355-6369   15 highRiskEnemySuperEvolveHandTriggers | [[battle-high-risk-common-helpers]]
+6370-6379   10 highRiskHandTurnEndTriggers | [[battle-high-risk-common-helpers]]
+6380-6390   11 highRiskDrawMatching | [[battle-high-risk-common-helpers]]
+6391-6403   13 highRiskSummonDeckCard | [[battle-high-risk-common-helpers]]
+6404-6408    5 highRiskOtherAlliedFollower | [[battle-high-risk-common-helpers]]
+6409-6415    7 highRiskGrantKeyword | [[battle-high-risk-common-helpers]]
+6416-6425   10 highRiskAlliedGroup | [[battle-high-risk-common-helpers]]
+6426-7889 1464 resolveHighRiskGenericText | [[battle-high-risk-common-helpers]]
+7890-8265  376 resolveText | [[battle-high-risk-common-helpers]]
+8266-8344   79 effectContext | [[battle-high-risk-common-helpers]]
+8345-8352    8 effectContextBare | [[battle-high-risk-common-helpers]]
+8353-8356    4 isSpellboostRecipient | [[class-mechanic-boundaries-v1]]
+8357-8365    9 inspectSpellboostBoundary | [[class-mechanic-boundaries-v1]]
+8366-8390   25 spellboostHand | [[class-mechanic-boundaries-v1]]
+8391-8404   14 reanimate | [[class-mechanic-boundaries-v1]]
+8405-8409    5 related | [[class-mechanic-boundaries-v1]]
+8410-8414    5 findByName | [[class-mechanic-boundaries-v1]]
+8415-8432   18 summonRaw | [[class-mechanic-boundaries-v1]]
+8433-8449   17 summonWithEvents | [[class-mechanic-boundaries-v1]]
+8450-8471   22 summonFromDeckDifferentNames | [[battle-deck-summon-primitives]]
+8472-8485   14 summonWithoutLastWords | [[battle-deck-summon-primitives]]
+8486-8499   14 addHand | [[battle-deck-summon-primitives]]
+8500-8509   10 giveKeyword | [[battle-deck-summon-primitives]]
+8510-8545   36 applyEntryEvents | [[battle-deck-summon-primitives]]
+8546-8573   28 applyFollowerDamagedEvents | [[battle-deck-summon-primitives]]
+8574-8598   25 afterLeaderHeal | [[battle-deck-summon-primitives]]
+8599-8618   20 applyCrestTurnStartOrdered | [[battle-deck-summon-primitives]]
+8619-8647   29 turnStart | [[battle-deck-summon-primitives]]
+8648-8693   46 tickCrests | [[battle-deck-summon-primitives]]
+8694-8747   54 turnEnd | [[battle-deck-summon-primitives]]
+8748-8787   40 applyCrestTurnEnd | [[battle-deck-summon-primitives]]
+8788-8814   27 invokeCards | [[battle-deck-summon-primitives]]
+8815-8832   18 readyBoard | [[battle-deck-summon-primitives]]
+8833-8837    5 engageInfo | [[battle-deck-summon-primitives]]
+8838-8845    8 bestEngage | [[battle-deck-summon-primitives]]
+8846-8863   18 scoreEngage | [[battle-deck-summon-primitives]]
+8864-8885   22 resolveEngage | [[battle-deck-summon-primitives]]
+8886-8959   74 maybeEvolve | [[battle-ai-effect-aware-evolution-v1]]
+8960-8987   28 scoreEvolutionCandidate | [[battle-ai-effect-aware-evolution-v1]]
+8988-8994    7 evolutionEffectValue | [[battle-ai-effect-aware-evolution-v1]]
+8995-9023   29 evolutionTextValue | [[battle-ai-effect-aware-evolution-v1]]
+9024-9043   20 evolveUnitByAbility | [[battle-ability-evolve-helper-v5]]
+9044-9074   31 superEvolveUnitByAbility | [[battle-ability-evolve-helper-v5]]
+9075-9208  134 attackPhase | [[battle-ability-evolve-helper-v5]]
+9209-9209    1 attackable | [[battle-ability-evolve-helper-v5]]
+9210-9212    3 activeWards | [[battle-ability-evolve-helper-v5]]
+9213-9223   11 rankAttackers | [[battle-ai-v2-2-attack-order]]
+9224-9228    5 canAttackCurrentState | [[battle-ai-v2-2-attack-order]]
+9229-9265   37 attackPriorityScore | [[battle-ai-v2-2-attack-order]]
+9266-9276   11 rankSetupAttackers | [[battle-ai-v2-2-attack-order]]
+9277-9288   12 setupSacrificeScore | [[battle-ai-v2-2-attack-order]]
+9289-9297    9 willFollowerDieInCombat | [[battle-ai-v2-2-attack-order]]
+9298-9303    6 damageLeader | [[battle-actual-damage-v5]]
+9304-9325   22 damageUnit | [[battle-actual-damage-v5]]
+9326-9339   14 reactDamage | [[battle-actual-damage-v5]]
+9340-9357   18 hasCollectiveBoardLethal | [[battle-ai-collective-lethal-v1]]
+9358-9384   27 shouldFace | [[battle-ai-collective-lethal-v1]]
+9385-9390    6 canCombatRemove | [[battle-ai-collective-lethal-v1]]
+9391-9398    8 strike | [[battle-ai-collective-lethal-v1]]
+9399-9415   17 healPlayer | [[battle-ai-collective-lethal-v1]]
+9416-9423    8 notifyFollowerLeavesField | [[battle-follower-leaves-field]]
+9424-9452   29 cleanup | [[battle-follower-leaves-field]]
+9453-9481   29 destroyObject | [[battle-follower-leaves-field]]
+9482-9486    5 getUnitTriggeredText | [[battle-follower-leaves-field]]
+9487-9487    1 toCemetery | [[battle-follower-leaves-field]]
+9488-9488    1 destroyUnit | [[battle-follower-leaves-field]]
+9489-9489    1 banish | [[battle-follower-leaves-field]]
+9490-9499   10 bounce | [[battle-follower-leaves-field]]
+9500-9517   18 restoreTemporaryAttack | [[battle-follower-leaves-field]]
+
+LARGEST
+1464 resolveHighRiskGenericText @ 6426-7889
+ 376 resolveText @ 7890-8265
+ 197 inspectForestcraftFullRules @ 1235-1431
+ 195 inspectDragoncraftFullRules @ 1040-1234
+ 165 inspectSwordcraftFullRules @ 1432-1596
+ 163 inspectRunecraftExtendedRules @ 342-504
+ 160 inspectAbysscraftFullRules @ 580-739
+ 141 resolveHavencraftCardText @ 4197-4337
+ 139 resolveRunecraftCardText @ 6071-6209
+ 134 attackPhase @ 9075-9208
+ 130 resolveAbysscraftCardText @ 4966-5095
+ 123 inspectPortalcraftFullRules @ 917-1039
+ 122 resolveForestcraftCardText @ 5530-5651
+ 120 inspectRunecraftFullRules @ 222-341
+ 108 simulateBattle @ 30-137
+ 103 inspectHighRiskCandidateResolution @ 1603-1705
+ 100 inspectNeutralFullRules @ 817-916
+  96 resolveNeutralCardText @ 4440-4535
+  91 executeSingleAttackDecision @ 2564-2654
+  87 playCard @ 3901-3987
+  84 inspectHavenFullRules @ 138-221
+  83 inspectTurnPlan @ 3107-3189
+  82 inspectFuseSequence @ 3457-3538
+  79 planCurrentTurnBase @ 2726-2804
+  79 effectContext @ 8266-8344
+  77 inspectHavencraftFullRules @ 740-816
+  75 inspectCrestLifecycleRules @ 505-579
+  74 resolveDragoncraftCardText @ 5290-5363
+  74 maybeEvolve @ 8886-8959
+  71 plannerAttackPrior @ 2199-2269
+  64 useBonusPpIfUseful @ 1899-1962
+  64 resolvePortalcraftCardText @ 4696-4759
+  60 simulateOneOpponentResponse @ 2870-2929
+  59 inspectAiPlayChoice @ 3601-3659
+  58 buildFutureFirstActionCandidates @ 2944-3001
+  57 applyRunecraftEntryEvents @ 5885-5941
+  54 turnEnd @ 8694-8747
+  53 applyPortalcraftEntryEvents @ 4567-4619
+  53 resolveSwordcraftCardText @ 5804-5856
+  51 executeEvolutionDecision @ 2513-2563
+
+GROUPS
+simulate: 31 funcs / 2145 lines
+  30-137 simulateBattle
+  138-221 inspectHavenFullRules
+  222-341 inspectRunecraftFullRules
+  342-504 inspectRunecraftExtendedRules
+  505-579 inspectCrestLifecycleRules
+  580-739 inspectAbysscraftFullRules
+  740-816 inspectHavencraftFullRules
+  817-916 inspectNeutralFullRules
+  917-1039 inspectPortalcraftFullRules
+  1040-1234 inspectDragoncraftFullRules
+  1235-1431 inspectForestcraftFullRules
+  1432-1596 inspectSwordcraftFullRules
+  1597-1602 inspectEffectiveCost
+  1603-1705 inspectHighRiskCandidateResolution
+  1712-1752 makePlayer
+  1780-1795 instance
+  1796-1800 initialX
+  1801-1804 recordHandEvolution
+  1805-1808 skyboundCountForInstance
+  1809-1828 inspectPlayableModes
+  2870-2929 simulateOneOpponentResponse
+  3107-3189 inspectTurnPlan
+  3190-3194 inspectTwoTurnPlan
+  3363-3380 transformHandInstance
+  3457-3538 inspectFuseSequence
+  3601-3659 inspectAiPlayChoice
+  3660-3673 inspectRandomEnemyTargets
+  4760-4776 boardFollower
+  4777-4793 boardAmulet
+  6227-6241 highRiskCopyInstance
+  8357-8365 inspectSpellboostBoundary
+planner-ai: 94 funcs / 2267 lines
+  1801-1804 recordHandEvolution
+  1809-1828 inspectPlayableModes
+  1840-1852 mulligan
+  1853-1873 shouldMulligan
+  1899-1962 useBonusPpIfUseful
+  1963-1972 bestImmediateTurnAction
+  1973-2018 runTurnAi
+  2019-2027 clonePlanningItem
+  2028-2037 clonePlanningUnit
+  2038-2057 clonePlanningPlayer
+  2058-2067 clonePlanningState
+  2068-2081 planningPublicSeed
+  2082-2106 makePlanningRoot
+  2107-2119 plannerCardResourceValue
+  2120-2132 plannerDeathTriggerValue
+  2133-2154 plannerBoardValue
+  2155-2186 plannerStateValue
+  2199-2269 plannerAttackPrior
+  2270-2292 enumerateAttackDecisions
+  2293-2304 evolutionTargetPlans
+  2305-2326 enumerateEvolutionDecisions
+  2327-2334 enumerateEngageDecisions
+  2335-2350 diversifyPlannerActions
+  2351-2366 enumeratePlannerActions
+  2367-2376 plannerReadyFaceDamage
+  2377-2412 plannerOptimisticBurst
+  2413-2432 shouldRunPlannerLethalSearch
+  2433-2449 enumerateLethalPlannerActions
+  2450-2469 plannerLethalSearchScore
+  2470-2508 findPlannerLethal
+  2509-2512 hasAnyPlannerAction
+  2513-2563 executeEvolutionDecision
+  2564-2654 executeSingleAttackDecision
+  2655-2683 executePlannerAction
+  2684-2709 plannerEvolutionSpendCost
+  2710-2725 plannerNodeScore
+  2726-2804 planCurrentTurnBase
+  2805-2815 resetPlanningTurnState
+  2816-2835 beginPlanningTurn
+  2836-2841 finishPlanningTurn
+  2842-2851 executePlannerSequence
+  2852-2869 resampleFutureScenario
+  2870-2929 simulateOneOpponentResponse
+  2930-2943 uniqueFirstActionCandidates
+  2944-3001 buildFutureFirstActionCandidates
+  3002-3022 shouldUseTwoTurnLookahead
+  3023-3043 evaluateCandidateFuture
+  3044-3081 planCurrentTurn
+  3082-3106 plannerActionView
+  3107-3189 inspectTurnPlan
+  3190-3194 inspectTwoTurnPlan
+  3288-3302 projectedFuseTransformName
+  3303-3337 scoreFuseAction
+  3358-3362 bestFuse
+  3550-3574 estimateTurnSpend
+  3575-3584 getModesForHand
+  3585-3591 scoredPlayOptions
+  3592-3600 bestPlay
+  3674-3695 scorePassDecision
+  3696-3716 estimateVisibleIncomingDamage
+  3724-3771 projectedSurvivalAfterPlay
+  3772-3791 survivalLookaheadValue
+  3792-3821 timingLookaheadValue
+  3822-3869 scorePlay
+  4095-4104 applyHavencraftSuperEvolveHandTriggers
+  4630-4638 chooseUnusedPortalMode
+  4639-4668 applyPortalcraftSlausMode
+  4794-4799 recordAbyssModeSelection
+  4833-4843 applyAbysscraftSuperEvolveTriggers
+  5158-5174 applyDragoncraftSuperEvolveHandTriggers
+  5183-5199 applyDragoncraftAttackDeclaration
+  5368-5378 applyForestSuperEvolveHandTriggers
+  5379-5409 applyForestEvolutionTriggers
+  5698-5708 applySwordcraftSuperEvolveHandTriggers
+  5963-5968 applyRunecraftAttackDeclaration
+  6355-6369 highRiskEnemySuperEvolveHandTriggers
+  8838-8845 bestEngage
+  8846-8863 scoreEngage
+  8886-8959 maybeEvolve
+  8960-8987 scoreEvolutionCandidate
+forest: 12 funcs / 485 lines
+  1235-1431 inspectForestcraftFullRules
+  5364-5367 isPixieFollower
+  5368-5378 applyForestSuperEvolveHandTriggers
+  5379-5409 applyForestEvolutionTriggers
+  5410-5431 summonExactFollowerCopy
+  5432-5444 applyForestEntryEvents
+  5445-5466 forestcraftCrestLastWords
+  5467-5477 applyForestCrestTurnStart
+  5478-5502 applyForestCrestTurnEnd
+  5503-5511 applyForestFollowerPlayedCrest
+  5512-5529 transformEnemyFollowerInto
+  5530-5651 resolveForestcraftCardText
+sword: 23 funcs / 695 lines
+  1432-1596 inspectSwordcraftFullRules
+  1597-1602 inspectEffectiveCost
+  3404-3415 applyLootPlayedTrigger
+  5698-5708 applySwordcraftSuperEvolveHandTriggers
+  5709-5726 applySwordcraftSpellPlayedTriggers
+  5727-5751 swordcraftCrestLastWords
+  5752-5762 applySwordcraftLootCrestEvent
+  5763-5774 applySwordcraftCrestTurnEnd
+  5775-5790 applySwordcraftEnemyEntryEvents
+  5791-5797 applySwordcraftTurnStartLocks
+  5798-5803 clearSwordcraftTurnLocks
+  5804-5856 resolveSwordcraftCardText
+  5857-5876 runecraftCrestLastWords
+  5877-5884 destroyRunecraftCrest
+  5885-5941 applyRunecraftEntryEvents
+  5942-5950 applyRunecraftCardPlayedTriggers
+  5951-5962 applyInstituteChangedCostTrigger
+  5963-5968 applyRunecraftAttackDeclaration
+  5969-5997 applyRunecraftCrestTurnStart
+  5998-6029 applyRunecraftCrestTurnEnd
+  6030-6045 applyRunecraftOpponentTurnEndCrests
+  6046-6070 transformAlliedFollowersFromDeck
+  6071-6209 resolveRunecraftCardText
+rune: 20 funcs / 683 lines
+  222-341 inspectRunecraftFullRules
+  342-504 inspectRunecraftExtendedRules
+  5652-5655 runecraftTrait
+  5656-5659 isCrystalspawn
+  5660-5663 isGolemFollower
+  5664-5669 recordDestroyedShikigami
+  5670-5683 performEarthRite
+  5684-5697 silenceFollower
+  5857-5876 runecraftCrestLastWords
+  5877-5884 destroyRunecraftCrest
+  5885-5941 applyRunecraftEntryEvents
+  5942-5950 applyRunecraftCardPlayedTriggers
+  5963-5968 applyRunecraftAttackDeclaration
+  5969-5997 applyRunecraftCrestTurnStart
+  5998-6029 applyRunecraftCrestTurnEnd
+  6030-6045 applyRunecraftOpponentTurnEndCrests
+  6071-6209 resolveRunecraftCardText
+  8353-8356 isSpellboostRecipient
+  8357-8365 inspectSpellboostBoundary
+  8366-8390 spellboostHand
+dragon: 14 funcs / 463 lines
+  1040-1234 inspectDragoncraftFullRules
+  5096-5099 isMarineFollower
+  5100-5116 drawMatchingCard
+  5117-5157 applyDragoncraftEntryEvents
+  5158-5174 applyDragoncraftSuperEvolveHandTriggers
+  5175-5182 restoreDragoncraftTemporaryCosts
+  5183-5199 applyDragoncraftAttackDeclaration
+  5200-5217 dragoncraftCrestLastWords
+  5218-5228 applyDragoncraftFollowerTurnEnd
+  5229-5252 applyDragoncraftCrestTurnEnd
+  5253-5261 triggerDiscardedCard
+  5262-5276 discardDragoncraftCard
+  5277-5289 applyAzurifritTripleDamage
+  5290-5363 resolveDragoncraftCardText
+abyss: 14 funcs / 462 lines
+  580-739 inspectAbysscraftFullRules
+  4794-4799 recordAbyssModeSelection
+  4800-4803 isDepartedFollower
+  4804-4832 applyAbysscraftEntryEvents
+  4833-4843 applyAbysscraftSuperEvolveTriggers
+  4844-4859 applyAbysscraftFollowerDestroyedEvents
+  4860-4870 applyAbysscraftCrestTurnStart
+  4871-4880 handHasFourSameCost
+  4881-4923 applyAbysscraftCrestTurnEnd
+  4924-4931 abysscraftCrestLastWords
+  4932-4940 destroyAbyssCrest
+  4941-4949 advanceAbyssCrest
+  4950-4965 transformFollowerInto
+  4966-5095 resolveAbysscraftCardText
+haven: 19 funcs / 557 lines
+  138-221 inspectHavenFullRules
+  740-816 inspectHavencraftFullRules
+  2327-2334 enumerateEngageDecisions
+  4027-4032 bindHavencraftRuntime
+  4033-4067 applyHavencraftDrawTriggers
+  4068-4094 applyHavencraftEngageTriggers
+  4095-4104 applyHavencraftSuperEvolveHandTriggers
+  4105-4114 applyHavencraftMarkedEndTurnBanish
+  4115-4131 dealHavenSplitDamage
+  4132-4135 drawDefenseFourFollower
+  4136-4158 havencraftCrestLastWords
+  4159-4196 applyHavencraftCrestTurnEnd
+  4197-4337 resolveHavencraftCardText
+  4777-4793 boardAmulet
+  6280-6286 highRiskSummonAmulet
+  8833-8837 engageInfo
+  8838-8845 bestEngage
+  8846-8863 scoreEngage
+  8864-8885 resolveEngage
+portal: 50 funcs / 1242 lines
+  917-1039 inspectPortalcraftFullRules
+  1899-1962 useBonusPpIfUseful
+  3195-3199 fuseRequirement
+  3200-3204 hasTrait
+  3205-3220 isFuseMaterial
+  3221-3235 materialHoldValue
+  3236-3247 enumerateSubsets
+  3248-3287 candidateFuseMaterialSets
+  3288-3302 projectedFuseTransformName
+  3303-3337 scoreFuseAction
+  3338-3357 getFuseActions
+  3358-3362 bestFuse
+  3363-3380 transformHandInstance
+  3381-3403 applyFuseReactiveEffects
+  3404-3415 applyLootPlayedTrigger
+  3416-3456 resolveFuseAction
+  3457-3538 inspectFuseSequence
+  3539-3549 hasBlockedBoardDevelopment
+  3550-3574 estimateTurnSpend
+  3575-3584 getModesForHand
+  3585-3591 scoredPlayOptions
+  3592-3600 bestPlay
+  3601-3659 inspectAiPlayChoice
+  3660-3673 inspectRandomEnemyTargets
+  3674-3695 scorePassDecision
+  3696-3716 estimateVisibleIncomingDamage
+  3717-3723 canThreatenLeaderNextTurn
+  3724-3771 projectedSurvivalAfterPlay
+  3772-3791 survivalLookaheadValue
+  3792-3821 timingLookaheadValue
+  3822-3869 scorePlay
+  3870-3891 continuationValue
+  3892-3900 strongestFollowerThreat
+  3901-3987 playCard
+  4536-4539 isPortalArtifactFollower
+  4540-4543 isPortalPuppetryFollower
+  4544-4547 isBaseCostAtLeast
+  4548-4553 applyPortalTemporaryCost
+  4554-4557 applyPortalTemporaryCostToHand
+  4558-4566 restorePortalcraftTemporaryCosts
+  4567-4619 applyPortalcraftEntryEvents
+  4620-4629 applyPortalcraftSpellPlayedTriggers
+  4630-4638 chooseUnusedPortalMode
+  4639-4668 applyPortalcraftSlausMode
+  4669-4680 applyPortalcraftPreTickCrestTurnStart
+  4681-4695 applyPortalcraftCrestTurnEnd
+  4696-4759 resolvePortalcraftCardText
+  4760-4776 boardFollower
+  4777-4793 boardAmulet
+  6223-6226 highRiskIsArtifact
+neutral: 8 funcs / 298 lines
+  817-916 inspectNeutralFullRules
+  4338-4351 replaceWithMjerrabaineDeck
+  4352-4372 replaceWithApocalypseDeck
+  4373-4389 applyNeutralCardPlayedTriggers
+  4390-4407 neutralCrestLastWords
+  4408-4417 applyNeutralMarkedEndTurnBanish
+  4418-4439 applyNeutralCrestTurnEnd
+  4440-4535 resolveNeutralCardText
+generic-effects: 113 funcs / 3886 lines
+  505-579 inspectCrestLifecycleRules
+  1603-1705 inspectHighRiskCandidateResolution
+  1753-1779 installLeaderDamageGuard
+  1780-1795 instance
+  1796-1800 initialX
+  1801-1804 recordHandEvolution
+  1805-1808 skyboundCountForInstance
+  1809-1828 inspectPlayableModes
+  1829-1839 normStrategy
+  1840-1852 mulligan
+  1853-1873 shouldMulligan
+  1874-1898 drawCards
+  2120-2132 plannerDeathTriggerValue
+  2367-2376 plannerReadyFaceDamage
+  3404-3415 applyLootPlayedTrigger
+  3696-3716 estimateVisibleIncomingDamage
+  4033-4067 applyHavencraftDrawTriggers
+  4068-4094 applyHavencraftEngageTriggers
+  4095-4104 applyHavencraftSuperEvolveHandTriggers
+  4115-4131 dealHavenSplitDamage
+  4132-4135 drawDefenseFourFollower
+  4136-4158 havencraftCrestLastWords
+  4159-4196 applyHavencraftCrestTurnEnd
+  4373-4389 applyNeutralCardPlayedTriggers
+  4390-4407 neutralCrestLastWords
+  4418-4439 applyNeutralCrestTurnEnd
+  4620-4629 applyPortalcraftSpellPlayedTriggers
+  4669-4680 applyPortalcraftPreTickCrestTurnStart
+  4681-4695 applyPortalcraftCrestTurnEnd
+  4833-4843 applyAbysscraftSuperEvolveTriggers
+  4844-4859 applyAbysscraftFollowerDestroyedEvents
+  4860-4870 applyAbysscraftCrestTurnStart
+  4881-4923 applyAbysscraftCrestTurnEnd
+  4924-4931 abysscraftCrestLastWords
+  4932-4940 destroyAbyssCrest
+  4941-4949 advanceAbyssCrest
+  5100-5116 drawMatchingCard
+  5158-5174 applyDragoncraftSuperEvolveHandTriggers
+  5200-5217 dragoncraftCrestLastWords
+  5229-5252 applyDragoncraftCrestTurnEnd
+  5253-5261 triggerDiscardedCard
+  5277-5289 applyAzurifritTripleDamage
+  5368-5378 applyForestSuperEvolveHandTriggers
+  5379-5409 applyForestEvolutionTriggers
+  5410-5431 summonExactFollowerCopy
+  5445-5466 forestcraftCrestLastWords
+  5467-5477 applyForestCrestTurnStart
+  5478-5502 applyForestCrestTurnEnd
+  5503-5511 applyForestFollowerPlayedCrest
+  5664-5669 recordDestroyedShikigami
+  5698-5708 applySwordcraftSuperEvolveHandTriggers
+  5709-5726 applySwordcraftSpellPlayedTriggers
+  5727-5751 swordcraftCrestLastWords
+  5752-5762 applySwordcraftLootCrestEvent
+  5763-5774 applySwordcraftCrestTurnEnd
+  5857-5876 runecraftCrestLastWords
+  5877-5884 destroyRunecraftCrest
+  5942-5950 applyRunecraftCardPlayedTriggers
+  5951-5962 applyInstituteChangedCostTrigger
+  5969-5997 applyRunecraftCrestTurnStart
+  5998-6029 applyRunecraftCrestTurnEnd
+  6030-6045 applyRunecraftOpponentTurnEndCrests
+  6217-6222 highRiskWordNumber
+  6223-6226 highRiskIsArtifact
+  6227-6241 highRiskCopyInstance
+  6242-6259 highRiskAddCopyToHand
+  6260-6270 highRiskSummonExactFromHand
+  6271-6279 highRiskSummonExactFromUnit
+  6280-6286 highRiskSummonAmulet
+  6287-6300 highRiskHistoryCards
+  6301-6311 highRiskDiscardItems
+  6312-6329 highRiskReplayFanfare
+  6330-6337 highRiskRandomAbilitySegments
+  6338-6343 highRiskApplyEndOpponentTurnDestruction
+  6344-6354 highRiskRestoreOpponentHandCosts
+  6355-6369 highRiskEnemySuperEvolveHandTriggers
+  6370-6379 highRiskHandTurnEndTriggers
+  6380-6390 highRiskDrawMatching
+  6391-6403 highRiskSummonDeckCard
+  6404-6408 highRiskOtherAlliedFollower
