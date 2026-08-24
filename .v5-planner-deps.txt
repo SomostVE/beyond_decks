@@ -1,0 +1,14 @@
+startLine=2100
+endLine=3321
+chars=58670
+localFunctions=46
+
+LOCAL=runTurnAi, clonePlanningItem, clonePlanningUnit, clonePlanningPlayer, clonePlanningState, planningPublicSeed, makePlanningRoot, plannerCardResourceValue, plannerDeathTriggerValue, plannerBoardValue, plannerStateValue, actionKey, plannerAttackPrior, enumerateAttackDecisions, evolutionTargetPlans, enumerateEvolutionDecisions, enumerateEngageDecisions, diversifyPlannerActions, enumeratePlannerActions, plannerReadyFaceDamage, plannerOptimisticBurst, shouldRunPlannerLethalSearch, enumerateLethalPlannerActions, plannerLethalSearchScore, findPlannerLethal, hasAnyPlannerAction, executeEvolutionDecision, executeSingleAttackDecision, executePlannerAction, plannerEvolutionSpendCost, plannerNodeScore, planCurrentTurnBase, resetPlanningTurnState, beginPlanningTurn, finishPlanningTurn, executePlannerSequence, resampleFutureScenario, simulateOneOpponentResponse, uniqueFirstActionCandidates, buildFutureFirstActionCandidates, shouldUseTwoTurnLookahead, evaluateCandidateFuture, planCurrentTurn, plannerActionView, inspectTurnPlan, inspectTwoTurnPlan
+
+TOP_FUNCTION_DEPS=makePlayer, installLeaderDamageGuard, instance, recordHandEvolution, drawCards, useBonusPpIfUseful, getFuseActions, resolveFuseAction, scoredPlayOptions, scorePassDecision, estimateVisibleIncomingDamage, playCard, highRiskEnemySuperEvolveHandTriggers, resolveText, afterLeaderHeal, turnStart, turnEnd, readyBoard, engageInfo, scoreEngage, resolveEngage, scoreEvolutionCandidate, attackPhase, attackable, activeWards, willFollowerDieInCombat, damageLeader, damageUnit, hasCollectiveBoardLethal, canCombatRemove, strike, healPlayer, cleanup, getUnitTriggeredText, destroyUnit
+
+IMPORTED_DEPS=cap, cloneStats, compact, createRng, createStats, followerThreatValue, has, hasCrest, hasU, modes, norm, shuffle, snap, targetBranchValue, targetEffectSpec, targetableEnemyFollowers
+
+CONST_DEPS=MAX_ACTIONS
+
+INTERESTING_UNKNOWN=allAttacks, allCards, applyAbysscraftSuperEvolveTriggers, applyDragoncraftSuperEvolveHandTriggers, applyForestEvolutionTriggers, applyHavencraftSuperEvolveHandTriggers, applyRunecraftAttackDeclaration, applySwordcraftSuperEvolveHandTriggers, canAttackFollower, canAttackLeader, candidateState, cardsPlayedThisTurn, childState, clashAttacker, clashTarget, dealtToTarget, drainValue, enemyDeathValue, engagedThisTurn, followersAttackedThisTurn, fusedCards, fusedThisTurn, futureLookaheadUsedThisTurn, futureScore, immediateScore, maxAttacks, nextActionValue, nextPlan, nextScore, nextState, opponentDeck, opponentPersonalTurn, opponentStrategy, ownDeathValue, ownDeck, permanentAttackLock, personalTurn, responsePlan, responseState, return, shikigamiDestroyedBaseAttackThisTurn, shikigamiDestroyedBaseDefenseThisTurn, spellsPlayedThisTurn, summonedThisTurn, superEvolutions, superEvolve, superEvolved, superMode, targetPlan, tempAttackPenalty, topdeck, unlockTurn, viewState, worstFutureScore, yuriusAttackLocked
