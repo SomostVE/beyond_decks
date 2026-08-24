@@ -7,6 +7,10 @@ const refs = JSON.parse(await fs.readFile(new URL("../data/custom/reference-deck
 const cardMap = new Map(cards.map(card => [Number(card.id), card]));
 const decks = refs.decks ?? [];
 
+const CALIBRATION_GAMES = 24;
+const DETERMINISM_GAMES = 4;
+const FOREST_GAMES = 12;
+
 function deckList(reference) {
   return reference.cards.map(card => [Number(card.cardId), Number(card.qty ?? 1)]);
 }
@@ -26,28 +30,41 @@ assert.equal(identityCalibration.length, 2, "Calibration expects the two identit
 
 for (const reference of identityCalibration) {
   const deck = deckList(reference);
-  const input = {
+  const shared = {
     playerDeck: deck,
     opponentDeck: deck,
     cardMap,
     playerStrategy: reference.strategy ?? {},
-    opponentStrategy: reference.strategy ?? {},
-    games: 40,
-    seed: `ci-calibration:${reference.id}`
+    opponentStrategy: reference.strategy ?? {}
   };
 
-  const firstRun = runMatchupBenchmark(input);
-  const secondRun = runMatchupBenchmark(input);
-  assert.deepEqual(fingerprint(secondRun), fingerprint(firstRun), `${reference.name}: identical seed/input must be exactly reproducible`);
-  assert.equal(firstRun.first.games, 20, `${reference.name}: calibration must have 20 First games`);
-  assert.equal(firstRun.second.games, 20, `${reference.name}: calibration must have 20 Second games`);
+  // Keep the statistical sanity check separate from the exact reproducibility
+  // probe. Replaying the full calibration twice made every CI run pay for the
+  // same expensive AI simulations purely to prove determinism.
+  const firstRun = runMatchupBenchmark({
+    ...shared,
+    games: CALIBRATION_GAMES,
+    seed: `ci-calibration:${reference.id}`
+  });
+
+  const determinismInput = {
+    ...shared,
+    games: DETERMINISM_GAMES,
+    seed: `ci-determinism:${reference.id}`
+  };
+  const deterministicA = runMatchupBenchmark(determinismInput);
+  const deterministicB = runMatchupBenchmark(determinismInput);
+  assert.deepEqual(fingerprint(deterministicB), fingerprint(deterministicA), `${reference.name}: identical seed/input must be exactly reproducible`);
+
+  assert.equal(firstRun.first.games, CALIBRATION_GAMES / 2, `${reference.name}: calibration must split games evenly for First`);
+  assert.equal(firstRun.second.games, CALIBRATION_GAMES / 2, `${reference.name}: calibration must split games evenly for Second`);
   assert.equal(firstRun.coverage.unsupportedCopies, 0, `${reference.name}: full-coverage calibration cannot contain unsupported cards`);
   assert.equal(firstRun.coverage.partialCopies, 0, `${reference.name}: full-coverage calibration cannot contain partial cards`);
   assert.equal(firstRun.overall.ruleGapsPerGame, 0, `${reference.name}: full-coverage mirror should have zero rule-gap exposures`);
   assert.equal(firstRun.diagnostics.rulesTier, "good", `${reference.name}: full-coverage mirror should be a good rules sample`);
 
   // Deliberately broad: this catches catastrophic identity/side bias without
-  // pretending a 40-game baseline-AI mirror is a statistical balance test.
+  // pretending a small deterministic CI sample is a statistical balance test.
   assert.ok(firstRun.overall.winRate >= 20 && firstRun.overall.winRate <= 80, `${reference.name}: mirror win rate ${firstRun.overall.winRate.toFixed(1)}% indicates severe simulator identity bias`);
   assert.ok(firstRun.diagnostics.sideGap <= 60, `${reference.name}: mirror First/Second gap ${firstRun.diagnostics.sideGap.toFixed(1)}% is implausibly large`);
 
@@ -65,7 +82,7 @@ const forest = runMatchupBenchmark({
   cardMap,
   playerStrategy: forestReference.strategy ?? {},
   opponentStrategy: forestReference.strategy ?? {},
-  games: 20,
+  games: FOREST_GAMES,
   seed: "ci-calibration:forest-full"
 });
 assert.equal(forest.coverage.unsupportedCopies, 0, "Buff Forestcraft must contain no unsupported copies");

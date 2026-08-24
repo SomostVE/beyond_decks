@@ -4,6 +4,7 @@ const APP_STORAGE_PREFIXES = [
 ];
 const BACKUP_FORMAT = "svwb-deck-assistant-backup";
 const BACKUP_VERSION = 1;
+const DATABASE_GENERATED_AT_KEY = "svwb-database-generated-at";
 
 const trigger = document.getElementById("io-menu-trigger");
 const dropdown = document.getElementById("io-scope-dropdown");
@@ -111,14 +112,14 @@ function exportEverything() {
     version: BACKUP_VERSION,
     exportedAt: new Date().toISOString(),
     databaseGeneratedAt: readDatabaseGeneratedAt(),
-    note: "Full local backup for Shadowverse Deck Assistant. Only app-owned localStorage keys are included.",
+    note: "Full local backup for Beyond Decks. Only app-owned localStorage keys are included.",
     storage
   };
 }
 
 function importEverything(payload) {
   if (payload?.format !== BACKUP_FORMAT) {
-    throw new Error("This JSON is not a Shadowverse Deck Assistant full backup.");
+    throw new Error("This JSON is not a Beyond Decks full backup.");
   }
   if (Number(payload?.version) !== BACKUP_VERSION) {
     throw new Error(`Unsupported backup version: ${payload?.version ?? "unknown"}.`);
@@ -149,12 +150,7 @@ function importEverything(payload) {
 }
 
 function readDatabaseGeneratedAt() {
-  try {
-    const workspace = JSON.parse(localStorage.getItem("shadowverse-deck-assistant:v2") || "{}");
-    return workspace?.databaseGeneratedAt ?? null;
-  } catch {
-    return null;
-  }
+  return localStorage.getItem(DATABASE_GENERATED_AT_KEY) || null;
 }
 
 function setBackupStatus(message, type) {

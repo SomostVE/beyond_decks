@@ -1,4 +1,4 @@
-import "./tool-page-nav.js?v=01.03.000";
+import "./tool-page-nav.js";
 
 const page = document.querySelector(".collection-page");
 const tabs = document.querySelector(".collection-tabs");

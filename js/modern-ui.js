@@ -1,4 +1,4 @@
-ensureStylesheet("./css/modern-ui-v2.css?v=20260818-1", "modern-ui-v2.css");
+ensureStylesheet("./css/modern-ui-v2.css", "modern-ui-v2.css");
 
 const undoButton = document.getElementById("undo-deck");
 const redoButton = document.getElementById("redo-deck");

@@ -1,8 +1,8 @@
 import { state } from "./state.js";
 import { saveWorkspace } from "./storage.js";
 import "./update-report.js";
-import "./mobile-ui.js?v=01.03.000";
-import "./header-layout.js?v=20260818-2";
+import "./mobile-ui.js";
+import "./header-layout.js";
 
 waitForReady();
 
@@ -80,14 +80,6 @@ function setup() {
       collection.href = "./collection.html";
       collection.textContent = "Collection";
       actions.insertBefore(collection, actions.firstChild?.nextSibling ?? actions.firstChild);
-    }
-
-    if (!actions.querySelector('[href="./lab.html"]')) {
-      const lab = document.createElement("a");
-      lab.className = "button page-nav-button";
-      lab.href = "./lab.html";
-      lab.textContent = "Deck Lab";
-      actions.insertBefore(lab, actions.firstChild?.nextSibling ?? actions.firstChild);
     }
   }
 }

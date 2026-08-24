@@ -1,4 +1,3 @@
-import "./version-guard.js?v=01.04.000";
 import { loadOfficialCardData } from "./codex-client.js";
 
 export async function loadData() {
@@ -19,6 +18,7 @@ export async function loadData() {
   const customTags = tagData?.cards && typeof tagData.cards === "object" ? tagData.cards : {};
   const globalExclusions = new Set((exclusionData?.global ?? []).map(Number));
 
+  if (metadata.generatedAt) localStorage.setItem("svwb-database-generated-at", String(metadata.generatedAt));
   enrichCards(cards, packages, customTags);
 
   return { cards, metadata, packages, customTags, globalExclusions };
@@ -32,7 +32,13 @@ function enrichCards(cards, packages, customTags) {
     card.setId = Number(card.setId ?? 0);
     if (card.setId === 90000 || card.set === "90000") card.set = "Token";
 
-    card.keywords = extractOfficialKeywords(card.rawSkillText);
+    // Beyond Codex owns official keyword extraction and normalization. Do not
+    // re-parse rawSkillText here or Decks can diverge from the API contract.
+    card.keywords = Array.isArray(card.keywords)
+      ? [...new Set(card.keywords.map(String).filter(Boolean))].sort((a, b) => a.localeCompare(b))
+      : [];
+    card.traits = Array.isArray(card.traits) ? card.traits.map(String).filter(Boolean) : [];
+    card.relatedCards = Array.isArray(card.relatedCards) ? card.relatedCards.map(Number).filter(Number.isFinite) : [];
     card.deckSelectable = !Boolean(card.token) && card.setId !== 90000 && card.set !== "Token" && Number(card.maxCopies ?? 3) > 0;
     card.generatedBy = [];
     card.relations = [];
@@ -76,9 +82,7 @@ function enrichCards(cards, packages, customTags) {
     for (const entry of generatedMatchers) {
       const target = entry.card;
       if (source.id === target.id || hasRelation(source, target.id)) continue;
-      if (entry.pattern.test(text)) {
-        addRelation(source, target.id, "Direct relation");
-      }
+      if (entry.pattern.test(text)) addRelation(source, target.id, "Direct relation");
     }
   }
 
@@ -97,23 +101,19 @@ function enrichCards(cards, packages, customTags) {
       card.roles.push("Generate");
     }
     card.roles.sort();
+    card.__searchText = [
+      card.name,
+      card.text,
+      card.set,
+      card.class,
+      card.type,
+      card.rarity,
+      ...(card.traits ?? []),
+      ...(card.keywords ?? []),
+      ...(card.roles ?? []),
+      ...(card.customTags ?? [])
+    ].join(" ").toLowerCase();
   }
-}
-
-function extractOfficialKeywords(rawSkillText) {
-  const raw = String(rawSkillText ?? "");
-  const found = new Set();
-
-  for (const match of raw.matchAll(/<color=Keyword>(.*?)<\/color>/gi)) {
-    const value = String(match[1] ?? "")
-      .replace(/<[^>]+>/g, "")
-      .replace(/_\d+$/g, "")
-      .trim();
-
-    if (value && value.length > 1) found.add(value);
-  }
-
-  return [...found].sort((a, b) => a.localeCompare(b));
 }
 
 function inferRoles(card) {

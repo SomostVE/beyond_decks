@@ -96,21 +96,11 @@ h1, h2, h3, p { margin-top: 0; }
 
 .muted { color: var(--muted); }
 
-/* Keep unfinished tools available by direct URL without advertising them in the app. */
-a[href$="/engines.html"],
-a[href$="/lab.html"],
-a[href="./engines.html"],
-a[href="./lab.html"] {
-  display: none !important;
-}
-
 /* Remove helper copy when the control or section title already explains itself. */
 .io-scope-dropdown [role="menuitem"] span,
 #io-dialog > p.muted,
 #backup-dialog > p.muted,
 .collection-help,
-.tools-panel > p.tools-muted,
-.engines-title-row p.muted,
-.engine-section-heading p.muted {
+.tools-panel > p.tools-muted {
   display: none !important;
 }

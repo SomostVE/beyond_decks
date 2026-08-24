@@ -32,8 +32,6 @@ if (shell) {
     primaryNav.innerHTML = `
       <a href="./collection.html">Collection</a>
       <a href="./battle.html">Battle Sim</a>
-      <a href="./engines.html">Engines</a>
-      <a href="./lab.html">Deck Lab</a>
     `;
     drawerHead.insertAdjacentElement("afterend", primaryNav);
   }
@@ -101,7 +99,7 @@ if (shell) {
 }
 
 function ensureMobileStyles() {
-  for (const href of ["./css/mobile.css", "./css/mobile-menu.css", "./css/mobile-nav.css?v=01.03.000"]) {
+  for (const href of ["./css/mobile.css", "./css/mobile-menu.css", "./css/mobile-nav.css"]) {
     const name = href.split("/").pop().split("?")[0];
     if (document.querySelector(`link[href*="${name}"]`)) continue;
     const link = document.createElement("link");

@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Deci Builder</title>
-  <link rel="stylesheet" href="./css/base.css">
-  <link rel="stylesheet" href="./css/layout.css">
-  <link rel="stylesheet" href="./css/cards.css">
-  <link rel="stylesheet" href="./css/deck.css">
-  <link rel="stylesheet" href="./css/filters.css">
-  <link rel="stylesheet" href="./css/assistant.css">
-  <link rel="stylesheet" href="./css/qol.css">
-  <link rel="stylesheet" href="./css/sidebar.css">
-  <link rel="stylesheet" href="./css/collection.css">
-  <link rel="stylesheet" href="./css/tools.css">
-  <link rel="stylesheet" href="./css/modern-ui.css?v=20260818-1">
+  <title>Beyond Decks</title>
+  <link rel="stylesheet" href="./css/base.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/layout.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/cards.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/deck.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/filters.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/assistant.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/qol.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/sidebar.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/collection.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/tools.css?v=01.05.008">
+  <link rel="stylesheet" href="./css/modern-ui.css?v=01.05.008">
 </head>
 <body>
   <header class="app-header">
@@ -25,7 +25,7 @@
       <div id="rarity-filter" class="header-filter-root header-rarity-root"></div>
 
       <div class="header-actions">
-        <a class="button page-nav-button" href="./engines.html">Engines</a>
+        <a class="button page-nav-button" href="./battle.html">Battle Sim</a>
         <button id="open-collection" class="button" type="button">Collection</button>
         <button id="undo-deck" class="button" type="button">Undo</button>
         <button id="redo-deck" class="button" type="button">Redo</button>
@@ -177,7 +177,7 @@
       <h2>Everything import / export</h2>
       <button id="backup-dialog-close" type="button">×</button>
     </div>
-    <p class="muted">Full local backup: current deck, saved decks, collection, favorites, exclusions, preferences, Deck Lab notes and app view settings.</p>
+    <p class="muted">Full local backup: current deck, saved decks, collection, favorites, exclusions, preferences and app view settings.</p>
     <textarea id="backup-text" rows="14" spellcheck="false" placeholder="Export everything or paste a full backup JSON here..."></textarea>
     <div class="dialog-actions">
       <button id="export-everything" class="button" type="button">Export everything</button>
@@ -212,12 +212,12 @@
     </div>
   </dialog>
 
-  <script type="module" src="./js/version-guard.js?v=01.00.000"></script>
-  <script type="module" src="./js/modern-ui.js?v=20260818-3"></script>
-  <script type="module" src="./js/sidebar-collapse.js"></script>
-  <script type="module" src="./js/app.js?v=20260818-2"></script>
-  <script type="module" src="./js/io-menu.js"></script>
-  <script type="module" src="./js/format-control.js"></script>
-  <script type="module" src="./js/advanced-analysis-ui.js"></script>
+  <script type="module" src="./js/version-guard.js?v=01.05.008"></script>
+  <script type="module" src="./js/modern-ui.js?v=01.05.008"></script>
+  <script type="module" src="./js/sidebar-collapse.js?v=01.05.008"></script>
+  <script type="module" src="./js/app.js?v=01.05.008"></script>
+  <script type="module" src="./js/io-menu.js?v=01.05.008"></script>
+  <script type="module" src="./js/format-control.js?v=01.05.008"></script>
+  <script type="module" src="./js/advanced-analysis-ui.js?v=01.05.008"></script>
 </body>
 </html>
