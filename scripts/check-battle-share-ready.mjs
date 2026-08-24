@@ -7,6 +7,7 @@ const version = JSON.parse(read("version.json")).version;
 const engineEntry = read("js/battle-engine.js");
 const engine = read("js/battle-engine-v5.js");
 const engineState = read("js/battle-engine-v5-state.js");
+const engineClassRules = read("js/battle-engine-v5-class-rules.js");
 const rulesCore = read("js/battle-rules-core.js");
 const classRules = read("js/battle-class-mechanics.js");
 const battleUi = read("js/battle.js");
@@ -48,13 +49,15 @@ assert.doesNotMatch(classRules, /reanimate:\s*"Abysscraft"/, "Reanimate must pre
 assert.match(engine, /playerClass\s*=\s*null, opponentClass\s*=\s*null/, "Simulation API must accept explicit class identities");
 assert.match(engine, /resolveDeckClass\(deck, simulationMap, requested\)/, "Simulation must validate explicit class identity");
 assert.match(engine, /import \{ createStats, costOf, snap \} from "\.\/battle-engine-v5-state\.js";/, "V5 must use the extracted state/replay module");
+assert.match(engine, /import \{ createClassRules \} from "\.\/battle-engine-v5-class-rules\.js";/, "V5 must load the extracted class-rule module");
+assert.match(engine, /createClassRules\(\{/, "V5 must wire the extracted class-rule runtime");
 assert.match(engineState, /classMechanics:\s*classMechanicStatus\(player\)/, "Replay snapshots must expose class-specific mechanics");
 assert.match(engineState, /import \{ classMechanicStatus, isSpellboostRecipientCard \} from "\.\/battle-class-mechanics\.js";/, "Replay state module must source class mechanics from the class boundary layer");
 for (const mechanic of ["spellboost", "rally", "combo", "necromancy", "overflow", "earthRite"]) {
   assert.match(engine, new RegExp(`canUseClassMechanic\\([^\\n]+\\"${mechanic}\\"`), `Engine must gate ${mechanic} by class`);
 }
 for (const owner of ["Forestcraft", "Swordcraft", "Runecraft", "Dragoncraft", "Abysscraft"]) {
-  assert.match(engine, new RegExp(`canUseClassRules\\(ctx\\.player, \\"${owner}\\"`), `${owner} bespoke rules must be leader-class locked`);
+  assert.match(engineClassRules, new RegExp(`canUseClassRules\\(ctx\\.player, \\"${owner}\\"`), `${owner} bespoke rules must be leader-class locked`);
 }
 for (const mechanic of ["combo", "necromancy", "overflow"]) {
   assert.match(rulesCore, new RegExp(`canUseClassMechanic\\([^\\n]+\\"${mechanic}\\"`), `Generic rules must gate ${mechanic} by class`);
