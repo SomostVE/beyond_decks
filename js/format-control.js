@@ -47,30 +47,34 @@ function setup() {
   const viewBody = document.querySelector('[data-collapse-key="view"] .sidebar-collapse-body');
   if (viewBody && !document.getElementById("owned-only")) {
     const ownedLabel = document.createElement("label");
-    ownedLabel.innerHTML = `<input id="owned-only" type="checkbox" ${state.ownedOnly ? "checked" : ""}> Owned cards only`;
+    ownedLabel.innerHTML = `<input id="owned-only" type="checkbox"> Owned cards only`;
     const missingLabel = document.createElement("label");
-    missingLabel.innerHTML = `<input id="missing-only" type="checkbox" ${state.missingOnly ? "checked" : ""}> Missing deck cards only`;
+    missingLabel.innerHTML = `<input id="missing-only" type="checkbox"> Missing cards only`;
     viewBody.append(ownedLabel, missingLabel);
 
     const ownedInput = ownedLabel.querySelector("input");
     const missingInput = missingLabel.querySelector("input");
 
+    syncViewFilterInputs();
+
     ownedInput.addEventListener("change", () => {
       state.ownedOnly = ownedInput.checked;
-      if (state.ownedOnly) {
-        state.missingOnly = false;
-        missingInput.checked = false;
-      }
+      if (state.ownedOnly) state.missingOnly = false;
+      syncViewFilterInputs();
       refreshViewFilters();
     });
 
     missingInput.addEventListener("change", () => {
       state.missingOnly = missingInput.checked;
-      if (state.missingOnly) {
-        state.ownedOnly = false;
-        ownedInput.checked = false;
-      }
+      if (state.missingOnly) state.ownedOnly = false;
+      syncViewFilterInputs();
       refreshViewFilters();
+    });
+
+    // resetFilters() lives in app.js. Keep these late-mounted controls visually
+    // synchronized after the app resets its state instead of leaving stale checks.
+    document.getElementById("reset-filters")?.addEventListener("click", () => {
+      queueMicrotask(syncViewFilterInputs);
     });
   }
 
@@ -92,9 +96,15 @@ function setup() {
   }
 }
 
+function syncViewFilterInputs() {
+  const ownedInput = document.getElementById("owned-only");
+  const missingInput = document.getElementById("missing-only");
+  if (ownedInput) ownedInput.checked = Boolean(state.ownedOnly);
+  if (missingInput) missingInput.checked = Boolean(state.missingOnly);
+}
+
 function refreshViewFilters() {
-  // Reuse the app's normal View-filter change path so these late-mounted
-  // controls update the filter counts/grid immediately without reloading the page.
+  // Reuse the app's synchronized filter-render path without reloading the page.
   const bridge = document.getElementById("favorites-only");
   if (bridge) {
     bridge.dispatchEvent(new Event("change", { bubbles: true }));
