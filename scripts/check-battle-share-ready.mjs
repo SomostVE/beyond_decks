@@ -5,7 +5,8 @@ const read = path => fs.readFileSync(path, "utf8");
 const exists = path => fs.existsSync(path);
 const version = JSON.parse(read("version.json")).version;
 const engineEntry = read("js/battle-engine.js");
-const engine = read("js/battle-engine-v5.js");
+const engineFacade = read("js/battle-engine-v5.js");
+const engine = read("js/battle-engine-v5-runtime.js");
 const engineState = read("js/battle-engine-v5-state.js");
 const engineClassRules = read("js/battle-engine-v5-class-rules.js");
 const rulesCore = read("js/battle-rules-core.js");
@@ -19,6 +20,7 @@ const readme = read("README.md");
 
 assert.match(version, /^01\.05\.\d{3}$/, "Share-ready Battle Sim must remain on the 01.05 release line");
 assert.match(engineEntry, /battle-engine-v5\.js/, "Public Battle Sim engine must point to v5");
+assert.match(engineFacade, /export \* from "\.\/battle-engine-v5-runtime\.js";/, "V5 must remain a stable facade over the behavior-locked runtime");
 
 for (const script of [
   "scripts/check-battle-class-contracts.mjs",
@@ -48,9 +50,9 @@ assert.doesNotMatch(classRules, /reanimate:\s*"Abysscraft"/, "Reanimate must pre
 
 assert.match(engine, /playerClass\s*=\s*null, opponentClass\s*=\s*null/, "Simulation API must accept explicit class identities");
 assert.match(engine, /resolveDeckClass\(deck, simulationMap, requested\)/, "Simulation must validate explicit class identity");
-assert.match(engine, /import \{ createStats, costOf, snap \} from "\.\/battle-engine-v5-state\.js";/, "V5 must use the extracted state/replay module");
-assert.match(engine, /import \{ createClassRules \} from "\.\/battle-engine-v5-class-rules\.js";/, "V5 must load the extracted class-rule module");
-assert.match(engine, /createClassRules\(\{/, "V5 must wire the extracted class-rule runtime");
+assert.match(engine, /import \{ createStats, costOf, snap \} from "\.\/battle-engine-v5-state\.js";/, "V5 runtime must use the extracted state/replay module");
+assert.match(engine, /import \{ createClassRules \} from "\.\/battle-engine-v5-class-rules\.js";/, "V5 runtime must load the extracted class-rule module");
+assert.match(engine, /createClassRules\(\{/, "V5 runtime must wire the extracted class-rule runtime");
 assert.match(engineState, /classMechanics:\s*classMechanicStatus\(player\)/, "Replay snapshots must expose class-specific mechanics");
 assert.match(engineState, /import \{ classMechanicStatus, isSpellboostRecipientCard \} from "\.\/battle-class-mechanics\.js";/, "Replay state module must source class mechanics from the class boundary layer");
 for (const mechanic of ["spellboost", "rally", "combo", "necromancy", "overflow", "earthRite"]) {
@@ -101,4 +103,4 @@ for (const temporary of [
   "scripts/fix-fediel-class-gate-dup.mjs"
 ]) assert.equal(exists(temporary), false, `Temporary release materializer must not ship: ${temporary}`);
 
-console.log("Battle Sim share-ready gate: OK · class contracts + bespoke rules + replay + benchmark + publication checks locked");
+console.log("Battle Sim share-ready gate: OK · V5 facade + class contracts + bespoke rules + replay + benchmark + publication checks locked");
