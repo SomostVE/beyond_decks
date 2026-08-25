@@ -22,7 +22,7 @@ async function loadCards() {
 
 const cards = await loadCards();
 const crestCards = cards.filter(card => /\bcrest\b/i.test(`${card.text ?? ""}\n${card.rawSkillText ?? ""}\n${(card.keywords ?? []).join("\n")}`));
-const runtimeSources = ["js/battle-engine-v5.js", "js/battle-rules.js", "js/battle-rules-core.js"];
+const runtimeSources = ["js/battle-engine-v5-runtime.js", "js/battle-rules.js", "js/battle-rules-core.js"];
 const testSources = (await fs.readdir(new URL("./", import.meta.url)))
   .filter(name => name.endsWith(".mjs") && (name.startsWith("check-battle-") || name.startsWith("audit-battle-")))
   .map(name => `scripts/${name}`);
