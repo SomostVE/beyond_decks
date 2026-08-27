@@ -30,6 +30,7 @@ function setup() {
       </select>
     `;
     const select = control.querySelector("select");
+    applyNativeSelectTheme(select);
     select.value = state.format ?? "Rotation";
     select.addEventListener("change", () => {
       state.format = select.value;
@@ -93,6 +94,17 @@ function setup() {
       collection.textContent = "Collection";
       actions.insertBefore(collection, actions.firstChild?.nextSibling ?? actions.firstChild);
     }
+  }
+}
+
+function applyNativeSelectTheme(select) {
+  if (!select) return;
+  select.style.colorScheme = "dark";
+  select.style.backgroundColor = "#18202d";
+  select.style.color = "#f5f7fb";
+  for (const option of select.options) {
+    option.style.backgroundColor = "#18202d";
+    option.style.color = "#f5f7fb";
   }
 }
 
